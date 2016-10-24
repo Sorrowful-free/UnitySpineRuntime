@@ -1,0 +1,9 @@
+*.suo
+**/Library
+**/Obj
+**/Temp
+*.apk
+*.xap
+*.ipa
+*.bar
+**/build

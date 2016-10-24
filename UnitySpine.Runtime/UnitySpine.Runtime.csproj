@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{12FCF0E5-8711-4EC6-81AC-57C3B33905D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnitySpine.Runtime</RootNamespace>
+    <AssemblyName>UnitySpine.Runtime</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\Program Files\Unity\Editor\Data\UnityExtensions\Unity\GUISystem\UnityEngine.UI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\SpineAnimationData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\SpineAnimationsData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\SpineIKConstraintsTimeLineData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\SpineIKConstraintTimeLineData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineSlotsTimeLineData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineSlotTimeLineData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineBonesTimeLineData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineBoneTimeLineData.cs" />
+    <Compile Include="Spine\Runtime\Data\Attachments\SpineBoundingBoxAttachmentData.cs" />
+    <Compile Include="Spine\Runtime\Data\Attachments\SpineLinkedMeshAttachmentData.cs" />
+    <Compile Include="Spine\Runtime\Data\Attachments\SpineMeshAttachmentData.cs" />
+    <Compile Include="Spine\Runtime\Data\Attachments\SpinePathAttachmnetData.cs" />
+    <Compile Include="Spine\Runtime\Data\Attachments\SpineRegionAttachmentData.cs" />
+    <Compile Include="Spine\Runtime\Data\Events\SpineEventData.cs" />
+    <Compile Include="Spine\Runtime\Data\Events\SpineEventsData.cs" />
+    <Compile Include="Spine\Runtime\Data\SerializableReadOnlyCollection.cs" />
+    <Compile Include="Spine\Runtime\Data\SerializableReadOnlyDictionary.cs" />
+    <Compile Include="Spine\Runtime\Data\Attachments\SpineBaseAtachmentData.cs" />
+    <Compile Include="Spine\Runtime\Data\Attachments\SpineAttachmentType.cs" />
+    <Compile Include="Spine\Runtime\Data\Slots\SpineBlendModeType.cs" />
+    <Compile Include="Spine\Runtime\Data\Bones\SpineBoneData.cs" />
+    <Compile Include="Spine\Runtime\Data\Bones\SpineBoneTransformType.cs" />
+    <Compile Include="Spine\Runtime\Data\SpineData.cs" />
+    <Compile Include="Spine\Runtime\Data\Constraints\SpineIKConstraintsData.cs" />
+    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstraintPositionMode.cs" />
+    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstraintRotationMode.cs" />
+    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstraintSpacingMode.cs" />
+    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstrantData.cs" />
+    <Compile Include="Spine\Runtime\Data\SpineSkeletonData.cs" />
+    <Compile Include="Spine\Runtime\Data\Skins\SpineSkinData.cs" />
+    <Compile Include="Spine\Runtime\Data\Skins\SpineSkinsData.cs" />
+    <Compile Include="Spine\Runtime\Data\Slots\SpineSlotData.cs" />
+    <Compile Include="Spine\Runtime\Data\Constraints\SpineTransformConstraintsData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineBaseCurvedKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineBaseKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineColorKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineDeformKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineDrawOrderKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineEventKeyframeData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineIKConstraintKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineRotationKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineAttachmentKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineTransformConstraintKeyFrameData.cs" />
+    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineVectorKeyFrameData.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

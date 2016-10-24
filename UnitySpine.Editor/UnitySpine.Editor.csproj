@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{137D34FE-9C98-4C0C-879A-A63A73F7ACD4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnitySpine.Editor</RootNamespace>
+    <AssemblyName>UnitySpine.Editor</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Assets\Libraries\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEditor">
+      <HintPath>..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\BaseSerializableReadOnlyDictionaryJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\BaseSpineJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineAttachmentDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineBoneDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineEventDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineIKConstraintDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpinePathConstraintDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineSkeletonDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineSkinDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineSlotDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONConverter\SpineTransformConstraintDataJsonConverter.cs" />
+    <Compile Include="Spine\Editor\JSONExtention\JsonExtention.cs" />
+    <Compile Include="Spine\Editor\SpineProcessor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnitySpine.Runtime\UnitySpine.Runtime.csproj">
+      <Project>{12fcf0e5-8711-4ec6-81ac-57c3b33905d7}</Project>
+      <Name>UnitySpine.Runtime</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
