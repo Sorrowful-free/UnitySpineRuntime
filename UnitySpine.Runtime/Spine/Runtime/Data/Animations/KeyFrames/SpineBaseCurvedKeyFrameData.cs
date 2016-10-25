@@ -6,7 +6,7 @@ using UnityEngine;
 namespace UnitySpine.Runtime.Spine.Runtime.Data.Animations.KeyFrames
 {
     [Serializable]
-    public class SpineBaseCurvedKeyFrameData : SpineBaseKeyFrameData
+    public abstract class SpineBaseCurvedKeyFrameData : SpineBaseKeyFrameData
     {
         [SerializeField]
         private SpineKeyFrameCurveType _curveType;

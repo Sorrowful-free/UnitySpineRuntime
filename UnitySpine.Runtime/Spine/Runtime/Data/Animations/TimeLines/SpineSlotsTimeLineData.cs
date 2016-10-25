@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnitySpine.Runtime.Spine.Runtime.Data.Animations
+namespace UnitySpine.Runtime.Spine.Runtime.Data.Animations.TimeLines
 {
     public class SpineSlotsTimeLineData : SerializableReadOnlyDictionary<string,SpineSlotTimeLineData>
     {

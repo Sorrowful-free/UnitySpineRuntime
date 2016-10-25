@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnitySpine.Runtime.Spine.Runtime.Data.Animations.TimeLines;
 
 namespace UnitySpine.Runtime.Spine.Runtime.Data.Animations
 {
@@ -14,5 +15,10 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data.Animations
         private SpineSlotsTimeLineData _slots;
         public SpineSlotsTimeLineData Slots => _slots;
 
+        public SpineAnimationData(SpineBonesTimeLineData bones, SpineSlotsTimeLineData slots)
+        {
+            _bones = bones;
+            _slots = slots;
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UnitySpine.Runtime.Spine.Runtime.Data.Animations.KeyFrames;
 
-namespace UnitySpine.Runtime.Spine.Runtime.Data.Animations
+namespace UnitySpine.Runtime.Spine.Runtime.Data.Animations.TimeLines
 {
     [Serializable]
     public class SpineBoneTimeLineData

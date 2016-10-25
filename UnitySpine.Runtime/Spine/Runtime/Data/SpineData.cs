@@ -14,32 +14,42 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     public class SpineData
     {
         [SerializeField]
-        private SpineSkeletonData skeleton;
-        public SpineSkeletonData Skeleton => skeleton;
+        private SpineSkeletonData _skeleton;
+        public SpineSkeletonData Skeleton => _skeleton;
 
         [SerializeField]
-        private List<SpineBoneData> bones;
-        public ReadOnlyCollection<SpineBoneData> Bones => bones.AsReadOnly();
+        private List<SpineBoneData> _bones;
+        public ReadOnlyCollection<SpineBoneData> Bones => _bones.AsReadOnly();
 
         [SerializeField]
-        private List<SpineSlotData> slots;
-        public ReadOnlyCollection<SpineSlotData> Slots => slots.AsReadOnly();
+        private List<SpineSlotData> _slots;
+        public ReadOnlyCollection<SpineSlotData> Slots => _slots.AsReadOnly();
 
         [SerializeField]
-        private List<SpineIkConstraintsData> ik;
-        public ReadOnlyCollection<SpineIkConstraintsData> Ik => ik.AsReadOnly();
+        private List<SpineIkConstraintsData> _ik;
+        public ReadOnlyCollection<SpineIkConstraintsData> Ik => _ik.AsReadOnly();
 
         [SerializeField]
-        private List<SpineTransformConstraintsData> transform;
-        public ReadOnlyCollection<SpineTransformConstraintsData> Transform => transform.AsReadOnly();
+        private List<SpineTransformConstraintsData> _transform;
+        public ReadOnlyCollection<SpineTransformConstraintsData> Transform => _transform.AsReadOnly();
 
         [SerializeField]
-        private SpineSkinsData skins;
-        public SpineSkinsData Skins => skins;
+        private SpineSkinsData _skins;
+        public SpineSkinsData Skins => _skins;
 
         [SerializeField]
         private SpineEventsData _events;
-
         public SpineEventsData Events => _events;
+
+        public SpineData(SpineSkeletonData skeleton, List<SpineBoneData> bones, List<SpineSlotData> slots, List<SpineIkConstraintsData> ik, List<SpineTransformConstraintsData> transform, SpineSkinsData skins, SpineEventsData events)
+        {
+            _skeleton = skeleton;
+            _bones = bones;
+            _slots = slots;
+            _ik = ik;
+            _transform = transform;
+            _skins = skins;
+            _events = events;
+        }
     }
 }
