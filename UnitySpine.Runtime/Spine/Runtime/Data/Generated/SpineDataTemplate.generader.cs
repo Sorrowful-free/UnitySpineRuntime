@@ -60,10 +60,10 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 #endregion
 
 
-// generated classes 9
+// generated classes 33
 #region classes
     [Serializable]
-    public class SpineData
+    public class SpineData 
     {
         [SerializeField]
         private SpineSkeletonData _skeleton;
@@ -89,13 +89,23 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         private List<SpinePathConstraintData> _path;
         public ReadOnlyCollection<SpinePathConstraintData> Path => _path.AsReadOnly();
 
+        [SerializeField]
+        private SpineEventsData _events;
+        public SpineEventsData Events => _events;
+
+        [SerializeField]
+        private SpineSkinsData _skins;
+        public SpineSkinsData Skins => _skins;
+
         public SpineData(
         SpineSkeletonData @skeleton,
         SpineBoneData[] @bones,
         SpineSlotData[] @slots,
         SpineIKConstraintData[] @ik,
         SpineTransformConstraintData[] @transform,
-        SpinePathConstraintData[] @path)
+        SpinePathConstraintData[] @path,
+        SpineEventsData @events,
+        SpineSkinsData @skins)
         {
             _skeleton = @skeleton;
             _bones = @bones.ToList();
@@ -103,11 +113,13 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
             _ik = @ik.ToList();
             _transform = @transform.ToList();
             _path = @path.ToList();
+            _events = @events;
+            _skins = @skins;
         }
     }
 
     [Serializable]
-    public class SpineSkeletonData
+    public class SpineSkeletonData 
     {
         [SerializeField]
         private string _hash;
@@ -145,7 +157,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpineBoneData
+    public class SpineBoneData 
     {
         [SerializeField]
         private string _name;
@@ -225,7 +237,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpineSlotData
+    public class SpineSlotData 
     {
         [SerializeField]
         private string _name;
@@ -263,7 +275,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpineIKConstraintData
+    public class SpineIKConstraintData 
     {
         [SerializeField]
         private string _name;
@@ -307,7 +319,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpineTransformConstraintData
+    public class SpineTransformConstraintData 
     {
         [SerializeField]
         private string _name;
@@ -405,7 +417,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpinePathConstraintData
+    public class SpinePathConstraintData 
     {
         [SerializeField]
         private string _name;
@@ -485,7 +497,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpineAttachmentData
+    public class SpineAttachmentData 
     {
         [SerializeField]
         private SpineAttachmentTypeType _type;
@@ -631,7 +643,23 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpineEventData
+    public class SpineSkinData : SerializableReadOnlyDictionary<string,SpineAttachmentData>
+    {
+        public SpineSkinData(IDictionary<string,SpineAttachmentData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineSkinsData : SerializableReadOnlyDictionary<string,SpineSkinData>
+    {
+        public SpineSkinsData(IDictionary<string,SpineSkinData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineEventData 
     {
         [SerializeField]
         private string _name;
@@ -659,6 +687,470 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
             _int = @int;
             _float = @float;
             _string = @string;
+        }
+    }
+
+    [Serializable]
+    public class SpineEventsData : SerializableReadOnlyDictionary<string,SpineEventData>
+    {
+        public SpineEventsData(IDictionary<string,SpineEventData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineRotateKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private string _curve;
+        public string Curve => _curve;
+
+        [SerializeField]
+        private float _angle;
+        public float Angle => _angle;
+
+        public SpineRotateKeyFrameData(
+        float @time,
+        string @curve,
+        float @angle)
+        {
+            _time = @time;
+            _curve = @curve;
+            _angle = @angle;
+        }
+    }
+
+    [Serializable]
+    public class SpineVectorKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private string _curve;
+        public string Curve => _curve;
+
+        [SerializeField]
+        private float _x;
+        public float X => _x;
+
+        [SerializeField]
+        private float _y;
+        public float Y => _y;
+
+        public SpineVectorKeyFrameData(
+        float @time,
+        string @curve,
+        float @x,
+        float @y)
+        {
+            _time = @time;
+            _curve = @curve;
+            _x = @x;
+            _y = @y;
+        }
+    }
+
+    [Serializable]
+    public class SpineBoneTimeLineData 
+    {
+        [SerializeField]
+        private List<SpineRotateKeyFrameData> _rotate;
+        public ReadOnlyCollection<SpineRotateKeyFrameData> Rotate => _rotate.AsReadOnly();
+
+        [SerializeField]
+        private List<SpineVectorKeyFrameData> _translate;
+        public ReadOnlyCollection<SpineVectorKeyFrameData> Translate => _translate.AsReadOnly();
+
+        [SerializeField]
+        private List<SpineVectorKeyFrameData> _scale;
+        public ReadOnlyCollection<SpineVectorKeyFrameData> Scale => _scale.AsReadOnly();
+
+        [SerializeField]
+        private List<SpineVectorKeyFrameData> _shear;
+        public ReadOnlyCollection<SpineVectorKeyFrameData> Shear => _shear.AsReadOnly();
+
+        public SpineBoneTimeLineData(
+        SpineRotateKeyFrameData[] @rotate,
+        SpineVectorKeyFrameData[] @translate,
+        SpineVectorKeyFrameData[] @scale,
+        SpineVectorKeyFrameData[] @shear)
+        {
+            _rotate = @rotate.ToList();
+            _translate = @translate.ToList();
+            _scale = @scale.ToList();
+            _shear = @shear.ToList();
+        }
+    }
+
+    [Serializable]
+    public class SpineBonesAnimationData : SerializableReadOnlyDictionary<string,SpineBoneTimeLineData>
+    {
+        public SpineBonesAnimationData(IDictionary<string,SpineBoneTimeLineData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineAttachmentKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private string _name;
+        public string Name => _name;
+
+        public SpineAttachmentKeyFrameData(
+        float @time,
+        string @name)
+        {
+            _time = @time;
+            _name = @name;
+        }
+    }
+
+    [Serializable]
+    public class SpineColorKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private string _curve;
+        public string Curve => _curve;
+
+        [SerializeField]
+        private Color _color;
+        public Color Color => _color;
+
+        public SpineColorKeyFrameData(
+        float @time,
+        string @curve,
+        Color @color)
+        {
+            _time = @time;
+            _curve = @curve;
+            _color = @color;
+        }
+    }
+
+    [Serializable]
+    public class SpineSlotTimeLineData 
+    {
+        [SerializeField]
+        private List<SpineAttachmentKeyFrameData> _attachment;
+        public ReadOnlyCollection<SpineAttachmentKeyFrameData> Attachment => _attachment.AsReadOnly();
+
+        [SerializeField]
+        private List<SpineColorKeyFrameData> _color;
+        public ReadOnlyCollection<SpineColorKeyFrameData> Color => _color.AsReadOnly();
+
+        public SpineSlotTimeLineData(
+        SpineAttachmentKeyFrameData[] @attachment,
+        SpineColorKeyFrameData[] @color)
+        {
+            _attachment = @attachment.ToList();
+            _color = @color.ToList();
+        }
+    }
+
+    [Serializable]
+    public class SpineSlotsAnimationData : SerializableReadOnlyDictionary<string,SpineSlotTimeLineData>
+    {
+        public SpineSlotsAnimationData(IDictionary<string,SpineSlotTimeLineData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineIKConstraintKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private string _curve;
+        public string Curve => _curve;
+
+        [SerializeField]
+        private float _mix;
+        public float Mix => _mix;
+
+        [SerializeField]
+        private bool _bendPositive;
+        public bool BendPositive => _bendPositive;
+
+        public SpineIKConstraintKeyFrameData(
+        float @time,
+        string @curve,
+        float @mix,
+        bool @bendPositive)
+        {
+            _time = @time;
+            _curve = @curve;
+            _mix = @mix;
+            _bendPositive = @bendPositive;
+        }
+    }
+
+    [Serializable]
+    public class SpineIKConstraintsAnimationData : SerializableReadOnlyDictionary<string,SpineIKConstraintKeyFrameData[]>
+    {
+        public SpineIKConstraintsAnimationData(IDictionary<string,SpineIKConstraintKeyFrameData[]> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineTransformConstraintKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private string _curve;
+        public string Curve => _curve;
+
+        [SerializeField]
+        private float _rotateMix;
+        public float RotateMix => _rotateMix;
+
+        [SerializeField]
+        private float _translateMix;
+        public float TranslateMix => _translateMix;
+
+        [SerializeField]
+        private float _scaleMix;
+        public float ScaleMix => _scaleMix;
+
+        [SerializeField]
+        private float _shearMix;
+        public float ShearMix => _shearMix;
+
+        public SpineTransformConstraintKeyFrameData(
+        float @time,
+        string @curve,
+        float @rotateMix,
+        float @translateMix,
+        float @scaleMix,
+        float @shearMix)
+        {
+            _time = @time;
+            _curve = @curve;
+            _rotateMix = @rotateMix;
+            _translateMix = @translateMix;
+            _scaleMix = @scaleMix;
+            _shearMix = @shearMix;
+        }
+    }
+
+    [Serializable]
+    public class SpineTransformConstraintsAnimationData : SerializableReadOnlyDictionary<string,SpineTransformConstraintKeyFrameData[]>
+    {
+        public SpineTransformConstraintsAnimationData(IDictionary<string,SpineTransformConstraintKeyFrameData[]> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineDeformKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private int _offset;
+        public int Offset => _offset;
+
+        [SerializeField]
+        private List<float> _vertices;
+        public ReadOnlyCollection<float> Vertices => _vertices.AsReadOnly();
+
+        [SerializeField]
+        private string _curve;
+        public string Curve => _curve;
+
+        public SpineDeformKeyFrameData(
+        float @time,
+        int @offset,
+        float[] @vertices,
+        string @curve)
+        {
+            _time = @time;
+            _offset = @offset;
+            _vertices = @vertices.ToList();
+            _curve = @curve;
+        }
+    }
+
+    [Serializable]
+    public class SpineDeformTimeLineData : SerializableReadOnlyDictionary<string,SpineDeformKeyFrameData[]>
+    {
+        public SpineDeformTimeLineData(IDictionary<string,SpineDeformKeyFrameData[]> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineDeformSlotTimeLineData : SerializableReadOnlyDictionary<string,SpineDeformTimeLineData>
+    {
+        public SpineDeformSlotTimeLineData(IDictionary<string,SpineDeformTimeLineData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineDeformsAnimationData : SerializableReadOnlyDictionary<string,SpineDeformSlotTimeLineData>
+    {
+        public SpineDeformsAnimationData(IDictionary<string,SpineDeformSlotTimeLineData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineEventKeyframeData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private string _name;
+        public string Name => _name;
+
+        [SerializeField]
+        private int _int;
+        public int Int => _int;
+
+        [SerializeField]
+        private float _float;
+        public float Float => _float;
+
+        [SerializeField]
+        private string _string;
+        public string String => _string;
+
+        public SpineEventKeyframeData(
+        float @time,
+        string @name,
+        int @int,
+        float @float,
+        string @string)
+        {
+            _time = @time;
+            _name = @name;
+            _int = @int;
+            _float = @float;
+            _string = @string;
+        }
+    }
+
+    [Serializable]
+    public class SpineDrawOrderSlotKeyFrameData 
+    {
+        [SerializeField]
+        private string _slot;
+        public string Slot => _slot;
+
+        [SerializeField]
+        private int _offset;
+        public int Offset => _offset;
+
+        public SpineDrawOrderSlotKeyFrameData(
+        string @slot,
+        int @offset)
+        {
+            _slot = @slot;
+            _offset = @offset;
+        }
+    }
+
+    [Serializable]
+    public class SpineDrawOrderKeyFrameData 
+    {
+        [SerializeField]
+        private float _time;
+        public float Time => _time;
+
+        [SerializeField]
+        private SpineDrawOrderSlotKeyFrameData _offsets;
+        public SpineDrawOrderSlotKeyFrameData Offsets => _offsets;
+
+        public SpineDrawOrderKeyFrameData(
+        float @time,
+        SpineDrawOrderSlotKeyFrameData @offsets)
+        {
+            _time = @time;
+            _offsets = @offsets;
+        }
+    }
+
+    [Serializable]
+    public class SpineAnimationData 
+    {
+        [SerializeField]
+        private SpineBonesAnimationData _bones;
+        public SpineBonesAnimationData Bones => _bones;
+
+        [SerializeField]
+        private SpineSlotsAnimationData _slots;
+        public SpineSlotsAnimationData Slots => _slots;
+
+        [SerializeField]
+        private SpineIKConstraintsAnimationData _ik;
+        public SpineIKConstraintsAnimationData Ik => _ik;
+
+        [SerializeField]
+        private SpineTransformConstraintsAnimationData _transform;
+        public SpineTransformConstraintsAnimationData Transform => _transform;
+
+        [SerializeField]
+        private SpineDeformsAnimationData _deform;
+        public SpineDeformsAnimationData Deform => _deform;
+
+        [SerializeField]
+        private List<SpineEventKeyframeData> _events;
+        public ReadOnlyCollection<SpineEventKeyframeData> Events => _events.AsReadOnly();
+
+        [SerializeField]
+        private List<SpineDrawOrderKeyFrameData> _draworder;
+        public ReadOnlyCollection<SpineDrawOrderKeyFrameData> Draworder => _draworder.AsReadOnly();
+
+        public SpineAnimationData(
+        SpineBonesAnimationData @bones,
+        SpineSlotsAnimationData @slots,
+        SpineIKConstraintsAnimationData @ik,
+        SpineTransformConstraintsAnimationData @transform,
+        SpineDeformsAnimationData @deform,
+        SpineEventKeyframeData[] @events,
+        SpineDrawOrderKeyFrameData[] @draworder)
+        {
+            _bones = @bones;
+            _slots = @slots;
+            _ik = @ik;
+            _transform = @transform;
+            _deform = @deform;
+            _events = @events.ToList();
+            _draworder = @draworder.ToList();
+        }
+    }
+
+    [Serializable]
+    public class SpineAnimationsData : SerializableReadOnlyDictionary<string,SpineAnimationData>
+    {
+        public SpineAnimationsData(IDictionary<string,SpineAnimationData> dictionary) : base(dictionary)
+        {
         }
     }
 

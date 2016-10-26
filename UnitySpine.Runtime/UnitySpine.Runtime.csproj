@@ -52,7 +52,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SpineDataTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Spine\Runtime\Data\SerializableReadOnlyCollection.cs" />
+    <Compile Include="Spine\Runtime\Data\SerializableDictionary.cs" />
     <Compile Include="Spine\Runtime\Data\SerializableReadOnlyDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

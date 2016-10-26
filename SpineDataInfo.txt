@@ -11,6 +11,8 @@ Settings = {
 	IKConstraint[]: ik
 	TransformConstraint[]: transform
 	PathConstraint[]: path
+	Events: events
+	Skins: skins
 }
 
 Skeleton = {
@@ -113,10 +115,119 @@ Attachment = {
 	float: lengths
 }
 
+Skin = <string,Attachment>
+
+Skins = <string,Skin>
+
 Event ={
-	string:name
-	int:int
-	float:float
-	string:string
+	string: name
+	int: int
+	float: float
+	string: string
 }
+
+Events = <string,Event>
+
+RotateKeyFrame = {
+	float: time
+	string: curve = linear
+	float: angle
+}
+
+VectorKeyFrame = {
+	float: time
+	string: curve = linear
+	float: x
+	float: y
+}
+
+BoneTimeLine = {
+	RotateKeyFrame[]: rotate
+	VectorKeyFrame[]: translate
+	VectorKeyFrame[]: scale
+	VectorKeyFrame[]: shear
+} 
+
+BonesAnimation = <string,BoneTimeLine>
+
+AttachmentKeyFrame = {
+	float: time
+	string: name
+}
+
+ColorKeyFrame = {
+	float: time
+	string: curve = linear
+	Color: color = 0xFFFFFFFF
+}
+
+SlotTimeLine = {
+	AttachmentKeyFrame[]: attachment
+	ColorKeyFrame[]: color
+}
+
+SlotsAnimation = <string,SlotTimeLine>
+
+IKConstraintKeyFrame = {
+	float: time
+	string: curve = linear
+	float: mix
+	bool: bendPositive	
+}
+
+IKConstraintsAnimation =<string,IKConstraintKeyFrame[]>
+
+
+TransformConstraintKeyFrame ={
+	float: time
+	string: curve = linear
+	float: rotateMix = 1
+	float: translateMix = 1
+	float: scaleMix = 1
+	float: shearMix = 1
+}
+
+TransformConstraintsAnimation =<string,TransformConstraintKeyFrame[]>
+
+DeformKeyFrame ={
+	float: time
+	int: offset
+	float[]: vertices
+	string: curve = linear
+}
+
+DeformTimeLine =<string,DeformKeyFrame[]>
+
+DeformSlotTimeLine =<string,DeformTimeLine>
+
+DeformsAnimation =<string,DeformSlotTimeLine>
+
+EventKeyframe ={
+	float: time
+	string: name
+	int: int
+	float: float
+	string: string
+}
+
+DrawOrderSlotKeyFrame={
+	string: slot
+	int: offset
+}
+DrawOrderKeyFrame ={
+	float: time
+	DrawOrderSlotKeyFrame: offsets
+}
+
+Animation = {
+	BonesAnimation: bones
+	SlotsAnimation: slots
+	IKConstraintsAnimation: ik
+	TransformConstraintsAnimation: transform
+	DeformsAnimation: deform
+	EventKeyframe[]: events
+	DrawOrderKeyFrame[]: draworder	
+}
+
+Animations = <string,Animation>
 

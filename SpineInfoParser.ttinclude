@@ -57,7 +57,7 @@
 
         foreach (var category in categories)
         {
-            var categoryName = category.Key;
+            var categoryName = category.Key.Item1;
             foreach (var tuple in category.Value)
             {
                 if(!tuple.Item1.Contains("enum"))
@@ -82,11 +82,11 @@
     ///     objectName
     ///         prop - defaultValue
     /// </summary>
-    public Dictionary<string, List<Tuple<string, string, string>>> GetAllClasses(bool raw)
+    public Dictionary<Tuple<string,string>, List<Tuple<string, string, string>>> GetAllClasses(bool raw)
     {
         var lines = GetAllLines();
             
-        var categoriesRaw = new Dictionary<string,List<string>>();
+        var categoriesRaw = new Dictionary<Tuple<string,string>,List<string>>();
         var categoryRaw = new List<string>();
         var prefix = "";
         var postfix = "";
@@ -104,11 +104,22 @@
                 continue;
             var lineFormated = line.Replace(" ", "").Replace("	","");//remove whiteSpace
 
-            if (lineFormated.Contains("={")) //is begin of data
+            if (lineFormated.Contains("={") || lineFormated.Contains("=<")) //is begin of data
             {
-                var categoryName = lineFormated.Substring(0, lineFormated.IndexOf("={"));
-                
-                categoriesRaw.Add(categoryName, categoryRaw);
+                if(lineFormated.Contains("={"))
+                {
+                    var categoryName = lineFormated.Substring(0, lineFormated.IndexOf("={"));
+                    categoriesRaw.Add(new Tuple<string,string>(categoryName,""), categoryRaw);
+                }
+                else
+                {
+                    var categoryName = lineFormated.Substring(0, lineFormated.IndexOf("=<"));
+                    var firstIndex = lineFormated.IndexOf("=<")+2;
+                    var count = lineFormated.IndexOf(">") - firstIndex;
+                    var baseType = lineFormated.Substring(firstIndex,count);
+                    categoriesRaw.Add(new Tuple<string,string>(categoryName,baseType), categoryRaw);
+                    categoryRaw = new List<string>();
+                }         
             }
             else if (lineFormated.Contains("}")) //is end of data
             {
@@ -116,49 +127,45 @@
             }
             else // props
             {
-                categoryRaw.Add(lineFormated);
+                if(lineFormated.Contains(":"))
+                    categoryRaw.Add(lineFormated);
             }
         }
-        var categories = new Dictionary<string, List<Tuple<string,string,string>>>();
+        var categories = new Dictionary<Tuple<string,string>, List<Tuple<string,string,string>>>();
         foreach (var category in categoriesRaw)
         {
-            var categoryName = category.Key;     
+            var categoryName = category.Key.Item1;
             if(categoryName.Contains("Settings") && !raw)
                 continue;
             
             var categoryProps = new List<Tuple<string,string,string>>();
             var categoryNameNotRaw = categoryName;
+            var baseTypeNotRaw = category.Key.Item2;
             if(!raw)
+            {
                 categoryNameNotRaw = prefix+categoryNameNotRaw+postfix;
-            categories.Add(categoryNameNotRaw, categoryProps);
+                if(!string.IsNullOrEmpty(baseTypeNotRaw))
+                    baseTypeNotRaw = ApplyBaseTypes(prefix,postfix,postfixEnum,baseTypeNotRaw,categoryName,categoryName);
+            }
+                
+
+            categories.Add(new Tuple<string,string>(categoryNameNotRaw,baseTypeNotRaw), categoryProps);
             foreach (var prop in category.Value)
             {
                 var propFormated = prop.Replace(":", "#").Replace("=", "#").Split('#');
                 var propType = propFormated[0];
                 var propName = propFormated[1];
+                var isString = propType.Contains("string");
 
                 if(propName.Contains("(editor)") && !raw)
                     continue;
                     
                 propName = propName.Replace("(editor)","");    
-  
-
                 if(!raw)
-                {
-
-                    if(!propType.StartsWith("int") && !propType.StartsWith("float") && !propType.StartsWith("bool") && !propType.StartsWith("string") && !propType.StartsWith("Color") && !propType.StartsWith("enum"))
-                    {
-                        if(propType.Contains("[]") && !propType.Contains("enum"))
-                            propType = prefix + propType.Replace("[]","") + postfix + "[]";
-                        else 
-                            propType = prefix + propType + postfix;
-                    }  else if(propType.Contains("enum"))
-                    {
-                        propType = GetEnumType(categoryName,prefix,postfixEnum,propName);
-                    }
-                }
+                    propType = ApplyBaseType(prefix,postfix,postfixEnum,propType,propName,categoryName);
                 
-                categoryProps.Add(new Tuple<string, string, string>(propType, propName, propFormated.Length > 2 ? propFormated[2] : null));
+                
+                categoryProps.Add(new Tuple<string, string, string>(propType, propName, (propFormated.Length > 2 ? string.Format((isString?"\"{0}\"":"{0}"),propFormated[2]) : null)));
             }
         }
         return categories;
@@ -173,13 +180,49 @@
         return GetPrefix()+str+GetPostfix()+"[]";
     }
 
+    private string ApplyBaseTypes(string prefix,string postfix,string postfixEnum,string str,string propName,string categoryName)
+    {
+        str = str.Replace(" ","");
+        var first = ApplyBaseType(prefix,postfix,postfixEnum,str.Substring(0,str.IndexOf(",")),propName,categoryName);
+        var second = ApplyBaseType(prefix,postfix,postfixEnum,str.Substring(str.IndexOf(",")+1),propName,categoryName);
+        return first+","+second;
+    }
+
+    private string ApplyBaseType(string prefix,string postfix,string postfixEnum,string propType,string propName,string categoryName)
+    {
+         if(propType != ("int") 
+            && propType != ("float") 
+            && propType != ("bool") 
+            && propType != ("string") 
+            && propType != ("Color") 
+            && propType != ("int[]") 
+            && propType != ("float[]") 
+            && propType != ("bool[]") 
+            && propType != ("string[]") 
+            && propType != ("Color[]")             
+            && !propType.StartsWith("enum"))
+        {
+            if(propType.Contains("[]") && !propType.Contains("enum"))
+                propType = prefix + propType.Replace("[]","") + postfix + "[]";
+            else 
+                propType = prefix + propType + postfix;
+        }  else if(propType.Contains("enum"))
+        {
+            propType = GetEnumType(categoryName,prefix,postfixEnum,propName);
+        }else{
+            
+        }
+        return propType;
+    }
+
     private string GetPrefix()
     {
         var categories = GetAllClasses(true);
-        var category = default(List<Tuple<string, string, string>>);
-        if(categories.TryGetValue("Settings",out category))
+        
+        if(categories.Any(e=>e.Key.Item1 == "Settings"))
         {
-            return category.FirstOrDefault(e => e.Item2 == "Prefix").Item3;
+            var category = categories.FirstOrDefault(e=>e.Key.Item1 == "Settings");
+            return category.Value.FirstOrDefault(e => e.Item2 == "Prefix").Item3.Replace("\"","");
         }
         return "";
     }
@@ -187,10 +230,10 @@
     private string GetPostfix()
     {
         var categories = GetAllClasses(true);
-        var category = default(List<Tuple<string, string, string>>);
-        if(categories.TryGetValue("Settings",out category))
+        if(categories.Any(e=>e.Key.Item1 == "Settings"))
         {
-            return category.FirstOrDefault(e => e.Item2 == "Postfix").Item3;
+            var category = categories.FirstOrDefault(e=>e.Key.Item1 == "Settings");
+            return category.Value.FirstOrDefault(e => e.Item2 == "Postfix").Item3.Replace("\"","");
         }
         return "";
     }
@@ -198,10 +241,10 @@
     private string GetEnumPostfix()
     {
         var categories = GetAllClasses(true);
-        var category = default(List<Tuple<string, string, string>>);
-        if(categories.TryGetValue("Settings",out category))
+        if(categories.Any(e=>e.Key.Item1 == "Settings"))
         {
-            return category.FirstOrDefault(e => e.Item2 == "EnumPostfix").Item3;
+            var category = categories.FirstOrDefault(e=>e.Key.Item1 == "Settings");        
+            return category.Value.FirstOrDefault(e => e.Item2 == "EnumPostfix").Item3.Replace("\"","");
         }
         return "";
     }

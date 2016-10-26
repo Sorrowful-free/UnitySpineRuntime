@@ -8,9 +8,9 @@ using UnitySpine.Runtime.Spine.Runtime.Data;
 
 namespace UnitySpine.Editor.Spine.Editor.JSONConverter
 {
-// generated converters 9
+// generated converters 33
 
-    public class SpineDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpineDataJsonConverter : BaseSpineJsonConverter<SpineData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -21,6 +21,8 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             var @ik = jsonArray.TryGet<SpineIKConstraintData[]>("ik", serializer);
             var @transform = jsonArray.TryGet<SpineTransformConstraintData[]>("transform", serializer);
             var @path = jsonArray.TryGet<SpinePathConstraintData[]>("path", serializer);
+            var @events = jsonArray.TryGet<SpineEventsData>("events", serializer);
+            var @skins = jsonArray.TryGet<SpineSkinsData>("skins", serializer);
 
             return new SpineData(
             @skeleton,
@@ -28,11 +30,13 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             @slots,
             @ik,
             @transform,
-            @path);
+            @path,
+            @events,
+            @skins);
         }
     }
 
-    public class SpineSkeletonDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpineSkeletonDataJsonConverter : BaseSpineJsonConverter<SpineSkeletonData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -86,7 +90,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         }
     }
 
-    public class SpineSlotDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpineSlotDataJsonConverter : BaseSpineJsonConverter<SpineSlotData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -106,7 +110,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         }
     }
 
-    public class SpineIKConstraintDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpineIKConstraintDataJsonConverter : BaseSpineJsonConverter<SpineIKConstraintData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -128,7 +132,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         }
     }
 
-    public class SpineTransformConstraintDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpineTransformConstraintDataJsonConverter : BaseSpineJsonConverter<SpineTransformConstraintData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -168,7 +172,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         }
     }
 
-    public class SpinePathConstraintDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpinePathConstraintDataJsonConverter : BaseSpineJsonConverter<SpinePathConstraintData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -202,7 +206,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         }
     }
 
-    public class SpineAttachmentDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpineAttachmentDataJsonConverter : BaseSpineJsonConverter<SpineAttachmentData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -258,7 +262,15 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         }
     }
 
-    public class SpineEventDataJsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    public class SpineSkinDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineSkinData>
+    {
+    }
+
+    public class SpineSkinsDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineSkinsData>
+    {
+    }
+
+    public class SpineEventDataJsonConverter : BaseSpineJsonConverter<SpineEventData>
     {
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
@@ -274,5 +286,267 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             @float,
             @string);
         }
+    }
+
+    public class SpineEventsDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineEventsData>
+    {
+    }
+
+    public class SpineRotateKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineRotateKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @curve = jsonArray.TryGet<string>("curve", serializer,"linear");
+            var @angle = jsonArray.TryGet<float>("angle", serializer);
+
+            return new SpineRotateKeyFrameData(
+            @time,
+            @curve,
+            @angle);
+        }
+    }
+
+    public class SpineVectorKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineVectorKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @curve = jsonArray.TryGet<string>("curve", serializer,"linear");
+            var @x = jsonArray.TryGet<float>("x", serializer);
+            var @y = jsonArray.TryGet<float>("y", serializer);
+
+            return new SpineVectorKeyFrameData(
+            @time,
+            @curve,
+            @x,
+            @y);
+        }
+    }
+
+    public class SpineBoneTimeLineDataJsonConverter : BaseSpineJsonConverter<SpineBoneTimeLineData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @rotate = jsonArray.TryGet<SpineRotateKeyFrameData[]>("rotate", serializer);
+            var @translate = jsonArray.TryGet<SpineVectorKeyFrameData[]>("translate", serializer);
+            var @scale = jsonArray.TryGet<SpineVectorKeyFrameData[]>("scale", serializer);
+            var @shear = jsonArray.TryGet<SpineVectorKeyFrameData[]>("shear", serializer);
+
+            return new SpineBoneTimeLineData(
+            @rotate,
+            @translate,
+            @scale,
+            @shear);
+        }
+    }
+
+    public class SpineBonesAnimationDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineBonesAnimationData>
+    {
+    }
+
+    public class SpineAttachmentKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineAttachmentKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @name = jsonArray.TryGet<string>("name", serializer);
+
+            return new SpineAttachmentKeyFrameData(
+            @time,
+            @name);
+        }
+    }
+
+    public class SpineColorKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineColorKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @curve = jsonArray.TryGet<string>("curve", serializer,"linear");
+            var @color = jsonArray.TryGetColor("color", serializer,"0xFFFFFFFF");
+
+            return new SpineColorKeyFrameData(
+            @time,
+            @curve,
+            @color);
+        }
+    }
+
+    public class SpineSlotTimeLineDataJsonConverter : BaseSpineJsonConverter<SpineSlotTimeLineData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @attachment = jsonArray.TryGet<SpineAttachmentKeyFrameData[]>("attachment", serializer);
+            var @color = jsonArray.TryGet<SpineColorKeyFrameData[]>("color", serializer);
+
+            return new SpineSlotTimeLineData(
+            @attachment,
+            @color);
+        }
+    }
+
+    public class SpineSlotsAnimationDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineSlotsAnimationData>
+    {
+    }
+
+    public class SpineIKConstraintKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineIKConstraintKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @curve = jsonArray.TryGet<string>("curve", serializer,"linear");
+            var @mix = jsonArray.TryGet<float>("mix", serializer);
+            var @bendPositive = jsonArray.TryGet<bool>("bendPositive", serializer);
+
+            return new SpineIKConstraintKeyFrameData(
+            @time,
+            @curve,
+            @mix,
+            @bendPositive);
+        }
+    }
+
+    public class SpineIKConstraintsAnimationDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineIKConstraintsAnimationData>
+    {
+    }
+
+    public class SpineTransformConstraintKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineTransformConstraintKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @curve = jsonArray.TryGet<string>("curve", serializer,"linear");
+            var @rotateMix = jsonArray.TryGet<float>("rotateMix", serializer,1);
+            var @translateMix = jsonArray.TryGet<float>("translateMix", serializer,1);
+            var @scaleMix = jsonArray.TryGet<float>("scaleMix", serializer,1);
+            var @shearMix = jsonArray.TryGet<float>("shearMix", serializer,1);
+
+            return new SpineTransformConstraintKeyFrameData(
+            @time,
+            @curve,
+            @rotateMix,
+            @translateMix,
+            @scaleMix,
+            @shearMix);
+        }
+    }
+
+    public class SpineTransformConstraintsAnimationDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineTransformConstraintsAnimationData>
+    {
+    }
+
+    public class SpineDeformKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineDeformKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @offset = jsonArray.TryGet<int>("offset", serializer);
+            var @vertices = jsonArray.TryGet<float[]>("vertices", serializer);
+            var @curve = jsonArray.TryGet<string>("curve", serializer,"linear");
+
+            return new SpineDeformKeyFrameData(
+            @time,
+            @offset,
+            @vertices,
+            @curve);
+        }
+    }
+
+    public class SpineDeformTimeLineDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineDeformTimeLineData>
+    {
+    }
+
+    public class SpineDeformSlotTimeLineDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineDeformSlotTimeLineData>
+    {
+    }
+
+    public class SpineDeformsAnimationDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineDeformsAnimationData>
+    {
+    }
+
+    public class SpineEventKeyframeDataJsonConverter : BaseSpineJsonConverter<SpineEventKeyframeData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @name = jsonArray.TryGet<string>("name", serializer);
+            var @int = jsonArray.TryGet<int>("int", serializer);
+            var @float = jsonArray.TryGet<float>("float", serializer);
+            var @string = jsonArray.TryGet<string>("string", serializer);
+
+            return new SpineEventKeyframeData(
+            @time,
+            @name,
+            @int,
+            @float,
+            @string);
+        }
+    }
+
+    public class SpineDrawOrderSlotKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineDrawOrderSlotKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @slot = jsonArray.TryGet<string>("slot", serializer);
+            var @offset = jsonArray.TryGet<int>("offset", serializer);
+
+            return new SpineDrawOrderSlotKeyFrameData(
+            @slot,
+            @offset);
+        }
+    }
+
+    public class SpineDrawOrderKeyFrameDataJsonConverter : BaseSpineJsonConverter<SpineDrawOrderKeyFrameData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @time = jsonArray.TryGet<float>("time", serializer);
+            var @offsets = jsonArray.TryGet<SpineDrawOrderSlotKeyFrameData>("offsets", serializer);
+
+            return new SpineDrawOrderKeyFrameData(
+            @time,
+            @offsets);
+        }
+    }
+
+    public class SpineAnimationDataJsonConverter : BaseSpineJsonConverter<SpineAnimationData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+            var @bones = jsonArray.TryGet<SpineBonesAnimationData>("bones", serializer);
+            var @slots = jsonArray.TryGet<SpineSlotsAnimationData>("slots", serializer);
+            var @ik = jsonArray.TryGet<SpineIKConstraintsAnimationData>("ik", serializer);
+            var @transform = jsonArray.TryGet<SpineTransformConstraintsAnimationData>("transform", serializer);
+            var @deform = jsonArray.TryGet<SpineDeformsAnimationData>("deform", serializer);
+            var @events = jsonArray.TryGet<SpineEventKeyframeData[]>("events", serializer);
+            var @draworder = jsonArray.TryGet<SpineDrawOrderKeyFrameData[]>("draworder", serializer);
+
+            return new SpineAnimationData(
+            @bones,
+            @slots,
+            @ik,
+            @transform,
+            @deform,
+            @events,
+            @draworder);
+        }
+    }
+
+    public class SpineAnimationsDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineAnimationsData>
+    {
     }
 }

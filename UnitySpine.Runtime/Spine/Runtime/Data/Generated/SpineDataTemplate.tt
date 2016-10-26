@@ -39,7 +39,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     {
 #>
     [Serializable]
-    public class <#=classObj.Key #>
+    public class <#=classObj.Key.Item1 #> <#= string.IsNullOrEmpty(classObj.Key.Item2)?"":string.Format(": SerializableReadOnlyDictionary<{0}>",classObj.Key.Item2) #>
     {
 <#      foreach(var prop in classObj.Value)
         {#>
@@ -56,17 +56,24 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 <#          } #>
 
 <#      } #>
-        public <#=classObj.Key #>(
-<#      foreach(var prop in classObj.Value)
-        {#>
+<#      if(string.IsNullOrEmpty(classObj.Key.Item2))
+        { #>
+        public <#=classObj.Key.Item1 #>(<#= classObj.Value.Count()==0 ?")":""#>
+<#          foreach(var prop in classObj.Value)
+            {#>
         <#=prop.Item1#> @<#=prop.Item2 #><#= classObj.Value.Last() == prop?")":","#>
-<#        } #>
+<#          } #>
         {
-<#      foreach(var prop in classObj.Value)
-        {#>
+<#          foreach(var prop in classObj.Value)
+            {#>
             _<#=prop.Item2 #> = @<#=prop.Item2 #><#= prop.Item1.Contains("[]")?".ToList()":""#>;
-<#      } #>
+<#          } #>
         }
+<#        } else { #>
+        public <#=classObj.Key.Item1 #>(IDictionary<<#=classObj.Key.Item2 #>> dictionary) : base(dictionary)
+        {
+        }
+<#        } #>
     }
 
 <#  } #>
