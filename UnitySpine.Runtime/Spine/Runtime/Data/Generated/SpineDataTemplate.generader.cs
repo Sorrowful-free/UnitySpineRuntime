@@ -1155,7 +1155,5 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
 #endregion
-
-   
 }
 
