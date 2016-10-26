@@ -1,0 +1,208 @@
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections" #>
+<#@ import namespace="System.Collections.Generic" #> 
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#+
+    private string FilePath 
+    {
+        get
+        {
+            
+            IServiceProvider serviceProvider = (IServiceProvider)this.Host;
+            DTE dte = serviceProvider.GetService(typeof(DTE)) as DTE; 
+            string path = new FileInfo(dte.Solution.FullName).Directory.FullName;
+            path = Path.Combine(path,"SpineDataInfo.txt");
+            return path;
+        }
+    }
+    private StringReader GetStringReader()
+    {
+        return new StringReader(File.ReadAllText(FilePath));
+    }
+    
+    private List<string> GetAllLines()
+    {
+        var stringReader = GetStringReader();
+        var lines = new List<string>();
+        var line = stringReader.ReadLine();
+        lines.Add(line);
+        while (line != null)
+        {
+            line = stringReader.ReadLine();
+            if(!string.IsNullOrEmpty(line))
+                lines.Add(line.Replace("\"",""));
+        }
+        return lines;
+    }
+
+    public string MakeFirstCharUpper(string str)
+    {
+        var firstChar = str.Substring(0, 1).ToUpper();
+        var result = str.Substring(1);
+        return firstChar + result;
+    }
+
+    /// <summary>
+    /// enumName
+    ///     enumValues
+    /// </summary>
+    public Dictionary<string, List<string>> GetAllEnums()
+    {
+        var enums = new Dictionary<string, List<string>>();
+        var categories = GetAllClasses(true);
+        var prefix = GetPrefix();
+        var postfix= GetEnumPostfix();
+
+        foreach (var category in categories)
+        {
+            var categoryName = category.Key;
+            foreach (var tuple in category.Value)
+            {
+                if(!tuple.Item1.Contains("enum"))
+                    continue;
+                    
+                var enumName = GetEnumType(categoryName,prefix,postfix,tuple.Item2);
+                var enumValues =                                             //vnizu tabulyaciya
+                    tuple.Item1.Replace("enum[", "").Replace("]", "").Replace("	","").Split(',').Select(e => MakeFirstCharUpper(e));
+                enums.Add(enumName,enumValues.ToList());
+            }
+        }
+        return enums;
+    }
+
+    private string GetEnumType(string categoryName, string prefix, string postfix, string propName)
+    {
+        var enumName = prefix + categoryName + MakeFirstCharUpper(propName) + postfix;
+        return enumName;        
+    }
+
+    /// <summary>
+    ///     objectName
+    ///         prop - defaultValue
+    /// </summary>
+    public Dictionary<string, List<Tuple<string, string, string>>> GetAllClasses(bool raw)
+    {
+        var lines = GetAllLines();
+            
+        var categoriesRaw = new Dictionary<string,List<string>>();
+        var categoryRaw = new List<string>();
+        var prefix = "";
+        var postfix = "";
+        var postfixEnum = "";
+        if(!raw)
+        {
+            prefix = GetPrefix();
+            postfix = GetPostfix();
+            postfixEnum = GetEnumPostfix();
+        }
+
+        foreach (var line in lines)
+        {
+            if(string.IsNullOrEmpty(line))
+                continue;
+            var lineFormated = line.Replace(" ", "").Replace("	","");//remove whiteSpace
+
+            if (lineFormated.Contains("={")) //is begin of data
+            {
+                var categoryName = lineFormated.Substring(0, lineFormated.IndexOf("={"));
+                
+                categoriesRaw.Add(categoryName, categoryRaw);
+            }
+            else if (lineFormated.Contains("}")) //is end of data
+            {
+                categoryRaw = new List<string>();
+            }
+            else // props
+            {
+                categoryRaw.Add(lineFormated);
+            }
+        }
+        var categories = new Dictionary<string, List<Tuple<string,string,string>>>();
+        foreach (var category in categoriesRaw)
+        {
+            var categoryName = category.Key;     
+            if(categoryName.Contains("Settings") && !raw)
+                continue;
+            
+            var categoryProps = new List<Tuple<string,string,string>>();
+            var categoryNameNotRaw = categoryName;
+            if(!raw)
+                categoryNameNotRaw = prefix+categoryNameNotRaw+postfix;
+            categories.Add(categoryNameNotRaw, categoryProps);
+            foreach (var prop in category.Value)
+            {
+                var propFormated = prop.Replace(":", "#").Replace("=", "#").Split('#');
+                var propType = propFormated[0];
+                var propName = propFormated[1];
+
+                if(propName.Contains("(editor)") && !raw)
+                    continue;
+                    
+                propName = propName.Replace("(editor)","");    
+  
+
+                if(!raw)
+                {
+
+                    if(!propType.StartsWith("int") && !propType.StartsWith("float") && !propType.StartsWith("bool") && !propType.StartsWith("string") && !propType.StartsWith("Color") && !propType.StartsWith("enum"))
+                    {
+                        if(propType.Contains("[]") && !propType.Contains("enum"))
+                            propType = prefix + propType.Replace("[]","") + postfix + "[]";
+                        else 
+                            propType = prefix + propType + postfix;
+                    }  else if(propType.Contains("enum"))
+                    {
+                        propType = GetEnumType(categoryName,prefix,postfixEnum,propName);
+                    }
+                }
+                
+                categoryProps.Add(new Tuple<string, string, string>(propType, propName, propFormated.Length > 2 ? propFormated[2] : null));
+            }
+        }
+        return categories;
+    }
+
+
+    public string ApplyPrefixAndPostfix(string str)
+    {
+        if(str.Contains("[]"))
+            return GetPrefix()+str.Replace("[]","")+GetPostfix()+"[]";
+        
+        return GetPrefix()+str+GetPostfix()+"[]";
+    }
+
+    private string GetPrefix()
+    {
+        var categories = GetAllClasses(true);
+        var category = default(List<Tuple<string, string, string>>);
+        if(categories.TryGetValue("Settings",out category))
+        {
+            return category.FirstOrDefault(e => e.Item2 == "Prefix").Item3;
+        }
+        return "";
+    }
+
+    private string GetPostfix()
+    {
+        var categories = GetAllClasses(true);
+        var category = default(List<Tuple<string, string, string>>);
+        if(categories.TryGetValue("Settings",out category))
+        {
+            return category.FirstOrDefault(e => e.Item2 == "Postfix").Item3;
+        }
+        return "";
+    }
+
+    private string GetEnumPostfix()
+    {
+        var categories = GetAllClasses(true);
+        var category = default(List<Tuple<string, string, string>>);
+        if(categories.TryGetValue("Settings",out category))
+        {
+            return category.FirstOrDefault(e => e.Item2 == "EnumPostfix").Item3;
+        }
+        return "";
+    }
+ #>

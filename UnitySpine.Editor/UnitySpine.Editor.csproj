@@ -56,20 +56,11 @@
     <Compile Include="Spine\Editor\JSONConverter\BaseSpineSerializableReadOnlyCollectionJsonConverter.cs" />
     <Compile Include="Spine\Editor\JSONConverter\BaseSpineSerializableReadOnlyDictionaryJsonConverter.cs" />
     <Compile Include="Spine\Editor\JSONConverter\BaseSpineJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineAttachmentDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineBoneDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineEventDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineIKConstraintDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\Generated\SpineJsonConverterTemplate.generated.cs">
+    <Compile Include="Spine\Editor\JSONConverter\Generated\SpineDataJsonConverterTemplate.generader.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpineJsonConverterTemplate.tt</DependentUpon>
+      <DependentUpon>SpineDataJsonConverterTemplate.tt</DependentUpon>
     </Compile>
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpinePathConstraintDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineSkeletonDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineSkinDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineSlotDataJsonConverter.cs" />
-    <Compile Include="Spine\Editor\JSONConverter\HandMade\SpineTransformConstraintDataJsonConverter.cs" />
     <Compile Include="Spine\Editor\JSONExtention\JsonExtention.cs" />
     <Compile Include="Spine\Editor\SpineProcessor.cs" />
   </ItemGroup>
@@ -83,9 +74,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Spine\Editor\JSONConverter\Generated\SpineJsonConverterTemplate.tt">
+    <Folder Include="Spine\Editor\Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Spine\Editor\JSONConverter\Generated\SpineDataJsonConverterTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SpineJsonConverterTemplate.generated.cs</LastGenOutput>
+      <LastGenOutput>SpineDataJsonConverterTemplate.generader.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,77 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".generader.cs" #>
+<#@ include file="$(SolutionDir)\SpineInfoParser.ttinclude" #>
+
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using UnityEngine; 
+
+namespace UnitySpine.Runtime.Spine.Runtime.Data
+{
+<#  var enums = GetAllEnums(); #>
+// generated enums <#=enums.Count #>
+#region enums
+<#  foreach(var enumObj in enums)
+    {
+        var enumValues = enumObj.Value.ToArray();
+ #> 
+    public enum <#= enumObj.Key #>
+    {
+<#      foreach(var enumValue in enumValues)
+        {#>
+        <#=enumValue #>,
+<#      }#>
+    }
+<#  } #>
+#endregion
+
+
+<#  var classes = GetAllClasses(false);#>
+// generated classes <#=classes.Count #>
+#region classes
+<#  foreach(var classObj in classes)
+    {
+#>
+    [Serializable]
+    public class <#=classObj.Key #>
+    {
+<#      foreach(var prop in classObj.Value)
+        {#>
+        [SerializeField]
+<#
+            if(!prop.Item1.Contains("[]"))//not array 
+            {
+ #>
+        private <#=prop.Item1#> _<#=prop.Item2 #>;
+        public <#=prop.Item1#> <#=MakeFirstCharUpper(prop.Item2) #> => _<#=prop.Item2 #>;
+<#          }else{ #>
+        private List<<#=prop.Item1.Replace("[]","")#>> _<#=prop.Item2 #>;
+        public ReadOnlyCollection<<#=prop.Item1.Replace("[]","")#>> <#=MakeFirstCharUpper(prop.Item2) #> => _<#=prop.Item2 #>.AsReadOnly();
+<#          } #>
+
+<#      } #>
+        public <#=classObj.Key #>(
+<#      foreach(var prop in classObj.Value)
+        {#>
+        <#=prop.Item1#> @<#=prop.Item2 #><#= classObj.Value.Last() == prop?")":","#>
+<#        } #>
+        {
+<#      foreach(var prop in classObj.Value)
+        {#>
+            _<#=prop.Item2 #> = @<#=prop.Item2 #><#= prop.Item1.Contains("[]")?".ToList()":""#>;
+<#      } #>
+        }
+    }
+
+<#  } #>
+#endregion
+
+   
+}
+

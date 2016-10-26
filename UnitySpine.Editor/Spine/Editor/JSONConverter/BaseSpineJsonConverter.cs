@@ -12,6 +12,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             throw new System.NotImplementedException();
         }
 
+        
         public override bool CanConvert(Type objectType) => objectType == typeof (T);
 
         public abstract override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer);

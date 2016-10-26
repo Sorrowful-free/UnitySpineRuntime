@@ -47,53 +47,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\SpineAnimationData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\SpineAnimationsData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\SpineIKConstraintsTimeLineData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\SpineIKConstraintTimeLineData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineSlotsTimeLineData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineSlotTimeLineData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineBonesTimeLineData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\TimeLines\SpineBoneTimeLineData.cs" />
-    <Compile Include="Spine\Runtime\Data\Attachments\SpineBoundingBoxAttachmentData.cs" />
-    <Compile Include="Spine\Runtime\Data\Attachments\SpineLinkedMeshAttachmentData.cs" />
-    <Compile Include="Spine\Runtime\Data\Attachments\SpineMeshAttachmentData.cs" />
-    <Compile Include="Spine\Runtime\Data\Attachments\SpinePathAttachmnetData.cs" />
-    <Compile Include="Spine\Runtime\Data\Attachments\SpineRegionAttachmentData.cs" />
-    <Compile Include="Spine\Runtime\Data\Events\SpineEventData.cs" />
-    <Compile Include="Spine\Runtime\Data\Events\SpineEventsData.cs" />
+    <Compile Include="Spine\Runtime\Data\Generated\SpineDataTemplate.generader.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpineDataTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Spine\Runtime\Data\SerializableReadOnlyCollection.cs" />
     <Compile Include="Spine\Runtime\Data\SerializableReadOnlyDictionary.cs" />
-    <Compile Include="Spine\Runtime\Data\Attachments\SpineBaseAtachmentData.cs" />
-    <Compile Include="Spine\Runtime\Data\Attachments\SpineAttachmentType.cs" />
-    <Compile Include="Spine\Runtime\Data\Slots\SpineBlendModeType.cs" />
-    <Compile Include="Spine\Runtime\Data\Bones\SpineBoneData.cs" />
-    <Compile Include="Spine\Runtime\Data\Bones\SpineBoneTransformType.cs" />
-    <Compile Include="Spine\Runtime\Data\SpineData.cs" />
-    <Compile Include="Spine\Runtime\Data\Constraints\SpineIKConstraintsData.cs" />
-    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstraintPositionMode.cs" />
-    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstraintRotationMode.cs" />
-    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstraintSpacingMode.cs" />
-    <Compile Include="Spine\Runtime\Data\Constraints\SpinePathConstrantData.cs" />
-    <Compile Include="Spine\Runtime\Data\SpineSkeletonData.cs" />
-    <Compile Include="Spine\Runtime\Data\Skins\SpineSkinData.cs" />
-    <Compile Include="Spine\Runtime\Data\Skins\SpineSkinsData.cs" />
-    <Compile Include="Spine\Runtime\Data\Slots\SpineSlotData.cs" />
-    <Compile Include="Spine\Runtime\Data\Constraints\SpineTransformConstraintsData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineBaseCurvedKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineBaseKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineColorKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineDeformKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineDrawOrderKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineEventKeyframeData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineIKConstraintKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineRotationKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineAttachmentKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineTransformConstraintKeyFrameData.cs" />
-    <Compile Include="Spine\Runtime\Data\Animations\KeyFrames\SpineVectorKeyFrameData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Spine\Runtime\Data\Generated\SpineDataTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SpineDataTemplate.generader.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

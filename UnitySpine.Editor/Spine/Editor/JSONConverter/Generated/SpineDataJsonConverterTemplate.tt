@@ -1,0 +1,43 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".generader.cs" #>
+<#@ include file="$(SolutionDir)\SpineInfoParser.ttinclude" #>
+using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UnitySpine.Editor.Spine.Editor.JSONExtention;
+using UnitySpine.Runtime.Spine.Runtime.Data;
+
+<#var classes = GetAllClasses(false); 
+var enumPostFix = GetEnumPostfix();#>
+namespace UnitySpine.Editor.Spine.Editor.JSONConverter
+{
+// generated converters <#=classes.Count() #>
+<#  foreach(var classObj in classes)
+    {#>
+
+    public class <#=classObj.Key #>JsonConverter : BaseSpineJsonConverter<SpineBoneData>
+    {
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            var jsonArray = JArray.Load(reader);
+<#      foreach(var prop in classObj.Value)
+        {
+            var isEnum = prop.Item1.EndsWith(enumPostFix);
+            var isColor = prop.Item1.Contains("Color");
+#>
+            var @<#=prop.Item2 #> = jsonArray.<#=isEnum?"TryGetEnum":isColor?"TryGetColor":"TryGet"#><#=isColor?"":string.Format("<{0}>",prop.Item1)#>("<#=prop.Item2 #>", serializer<#=string.IsNullOrEmpty(prop.Item3)?"":","+(isColor?string.Format("\"{0}\"",prop.Item3):isEnum?string.Format("{0}.{1}",prop.Item1,MakeFirstCharUpper(prop.Item3)):prop.Item3)#>);
+<#        } #>
+
+            return new <#=classObj.Key#>(
+<#      foreach(var prop in classObj.Value)
+        { #>
+            @<#=prop.Item2 #><#= classObj.Value.Last() == prop ?");":","#>
+<#      } #>
+        }
+    }
+<#  }#>
+}

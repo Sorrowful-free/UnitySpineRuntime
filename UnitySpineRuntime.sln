@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySpineRuntime.CSharp", "UnitySpineRuntime.CSharp.csproj", "{66C61E4F-B9D4-540E-EE55-C3EA0977A113}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySpine.Runtime", "UnitySpine.Runtime\UnitySpine.Runtime.csproj", "{12FCF0E5-8711-4EC6-81AC-57C3B33905D7}"

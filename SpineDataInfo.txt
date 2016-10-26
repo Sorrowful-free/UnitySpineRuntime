@@ -1,0 +1,122 @@
+Settings = {
+	string: Prefix = "Spine"
+	string: Postfix = "Data"
+	string: EnumPostfix = "Type"
+}
+
+ = {
+	Skeleton: skeleton
+	Bone[]: bones
+	Slot[]: slots
+	IKConstraint[]: ik
+	TransformConstraint[]: transform
+	PathConstraint[]: path
+}
+
+Skeleton = {
+	string: hash
+	string: version
+	float: width
+	float: height
+	string: images
+}
+
+Bone = {
+	string: name
+	float: length
+	enum[normal, onlyTranslation, noRotationOrReflection, noScale, noScaleOrReflection]: transform = normal
+	float: x
+	float: y
+	float: rotation
+	float: scaleX = 1
+	float: scaleY = 1
+	float: shearX
+	float: shearY
+	bool: inheritScale = true
+	bool: inheritRotation = true
+	Color: color(editor) = 0x989898FF
+}
+
+Slot = {
+	string: name
+	string: bone
+	Color: color = 0xFFFFFFFF
+	string: attachment 
+	enum[normal, additive, multiply,screen]:blend = normal
+}
+
+IKConstraint = {
+	string: name
+	int: order
+	string[]: bones
+	string: target
+	float: mix = 1
+	bool: bendPositive = false
+}
+
+TransformConstraint = {
+	string: name
+	int: order
+	string: bone
+	string: target
+	float: rotation
+	float: x
+	float: y
+	float: scaleX = 1
+	float: scaleY = 1
+	float: shearX
+	float: shearY
+	float: rotateMix = 1
+	float: translateMix = 1
+	float: scaleMix = 1
+	float: shearMix = 1
+}
+
+PathConstraint = {
+	string: name
+	int: order
+	string[]: bones
+	string: target
+	enum[fixed,percent]: positionMode = percent
+	enum[length, fixed, percent]: spacingMode = length
+	enum[tangent, chain, chainScale]: rotateMode = tangent
+	float: rotation
+	float: position
+	float: spacing
+	float: rotateMix = 1
+	float: translateMix = 1
+}
+
+Attachment = {
+	enum[region,mesh,linkedmesh,boundingbox,path]:type = region
+	string: name
+	string: path
+	float: x
+	float: y 
+	float: scaleX = 1
+	float: scaleY = 1
+	float: rotation
+	int: width
+	int: height
+	Color: color = 0xFFFFFFFF
+	float[]: uvs
+	int[]: triangles
+	float[]: vertices
+	float[]: hull
+	int[]: edges
+	string: skin
+	string: parent
+	bool: deform = true
+	int: vertexColor
+	bool: closed
+	bool: constantSpeed = true
+	float: lengths
+}
+
+Event ={
+	string:name
+	int:int
+	float:float
+	string:string
+}
+
