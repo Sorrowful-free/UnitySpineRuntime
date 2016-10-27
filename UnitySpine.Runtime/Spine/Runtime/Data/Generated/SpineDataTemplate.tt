@@ -52,7 +52,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public <#=prop.Item1#> <#=MakeFirstCharUpper(prop.Item2) #> => _<#=prop.Item2 #>;
 <#          }else{ #>
         private List<<#=prop.Item1.Replace("[]","")#>> _<#=prop.Item2 #>;
-        public ReadOnlyCollection<<#=prop.Item1.Replace("[]","")#>> <#=MakeFirstCharUpper(prop.Item2) #> => _<#=prop.Item2 #>.AsReadOnly();
+        public ReadOnlyCollection<<#=prop.Item1.Replace("[]","")#>> <#=MakeFirstCharUpper(prop.Item2) #> => _<#=prop.Item2 #>?.AsReadOnly();
 <#          } #>
 
 <#      } #>
@@ -66,7 +66,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         {
 <#          foreach(var prop in classObj.Value)
             {#>
-            _<#=prop.Item2 #> = @<#=prop.Item2 #><#= prop.Item1.Contains("[]")?".ToList()":""#>;
+            _<#=prop.Item2 #> = @<#=prop.Item2 #><#= prop.Item1.Contains("[]")?"?.ToList()":""#>;
 <#          } #>
         }
 <#        } else { #>

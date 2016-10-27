@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace UnitySpine.Editor.Spine.Editor.JSONConverter
 {

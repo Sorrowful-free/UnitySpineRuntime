@@ -13,6 +13,7 @@ Settings = {
 	PathConstraint[]: path
 	Events: events
 	Skins: skins
+	Animations: animations
 }
 
 Skeleton = {
@@ -25,6 +26,7 @@ Skeleton = {
 
 Bone = {
 	string: name
+	string: parent
 	float: length
 	enum[normal, onlyTranslation, noRotationOrReflection, noScale, noScaleOrReflection]: transform = normal
 	float: x
@@ -110,7 +112,7 @@ Attachment = {
 	string: parent
 	bool: deform = true
 	int: vertexColor
-	bool: closed
+	bool: closed = true
 	bool: constantSpeed = true
 	float: lengths
 }
@@ -130,13 +132,13 @@ Events = <string,Event>
 
 RotateKeyFrame = {
 	float: time
-	string: curve = linear
+	float[]: curve
 	float: angle
 }
 
 VectorKeyFrame = {
 	float: time
-	string: curve = linear
+	float[]: curve
 	float: x
 	float: y
 }
@@ -157,7 +159,7 @@ AttachmentKeyFrame = {
 
 ColorKeyFrame = {
 	float: time
-	string: curve = linear
+	float[]: curve
 	Color: color = 0xFFFFFFFF
 }
 
@@ -170,7 +172,7 @@ SlotsAnimation = <string,SlotTimeLine>
 
 IKConstraintKeyFrame = {
 	float: time
-	string: curve = linear
+	float[]: curve
 	float: mix
 	bool: bendPositive	
 }
@@ -180,7 +182,7 @@ IKConstraintsAnimation =<string,IKConstraintKeyFrame[]>
 
 TransformConstraintKeyFrame ={
 	float: time
-	string: curve = linear
+	float[]: curve
 	float: rotateMix = 1
 	float: translateMix = 1
 	float: scaleMix = 1
@@ -193,7 +195,7 @@ DeformKeyFrame ={
 	float: time
 	int: offset
 	float[]: vertices
-	string: curve = linear
+	float[]: curve
 }
 
 DeformTimeLine =<string,DeformKeyFrame[]>

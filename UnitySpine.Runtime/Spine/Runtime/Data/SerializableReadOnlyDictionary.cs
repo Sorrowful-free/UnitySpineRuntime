@@ -8,7 +8,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 {
 
     [Serializable]
-    public class SerializableReadOnlyDictionary<TKey,TValue> : IReadOnlyDictionary<TKey,TValue>,ISerializationCallbackReceiver
+    public class SerializableReadOnlyDictionary<TKey,TValue> : IEnumerable<KeyValuePair<TKey, TValue>>, ISerializationCallbackReceiver
     {
         [HideInInspector, SerializeField]
         private List<TKey> _serializableKeys = new List<TKey>();
@@ -17,10 +17,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         private List<TValue> _serializableValues = new List<TValue>();
 
         private IDictionary<TKey, TValue> _data;
-
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _data.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        
         public int Count => _data.Count;
 
         public bool ContainsKey(TKey key) => _data.ContainsKey(key);
@@ -54,6 +51,9 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
                 }
             }
         }
-       
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _data.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => _data.GetEnumerator();
     }
 }

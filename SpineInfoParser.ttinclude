@@ -34,6 +34,7 @@
             if(!string.IsNullOrEmpty(line))
                 lines.Add(line.Replace("\"",""));
         }
+        stringReader.Close();
         return lines;
     }
 

@@ -71,23 +71,23 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         [SerializeField]
         private List<SpineBoneData> _bones;
-        public ReadOnlyCollection<SpineBoneData> Bones => _bones.AsReadOnly();
+        public ReadOnlyCollection<SpineBoneData> Bones => _bones?.AsReadOnly();
 
         [SerializeField]
         private List<SpineSlotData> _slots;
-        public ReadOnlyCollection<SpineSlotData> Slots => _slots.AsReadOnly();
+        public ReadOnlyCollection<SpineSlotData> Slots => _slots?.AsReadOnly();
 
         [SerializeField]
         private List<SpineIKConstraintData> _ik;
-        public ReadOnlyCollection<SpineIKConstraintData> Ik => _ik.AsReadOnly();
+        public ReadOnlyCollection<SpineIKConstraintData> Ik => _ik?.AsReadOnly();
 
         [SerializeField]
         private List<SpineTransformConstraintData> _transform;
-        public ReadOnlyCollection<SpineTransformConstraintData> Transform => _transform.AsReadOnly();
+        public ReadOnlyCollection<SpineTransformConstraintData> Transform => _transform?.AsReadOnly();
 
         [SerializeField]
         private List<SpinePathConstraintData> _path;
-        public ReadOnlyCollection<SpinePathConstraintData> Path => _path.AsReadOnly();
+        public ReadOnlyCollection<SpinePathConstraintData> Path => _path?.AsReadOnly();
 
         [SerializeField]
         private SpineEventsData _events;
@@ -97,6 +97,10 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         private SpineSkinsData _skins;
         public SpineSkinsData Skins => _skins;
 
+        [SerializeField]
+        private SpineAnimationsData _animations;
+        public SpineAnimationsData Animations => _animations;
+
         public SpineData(
         SpineSkeletonData @skeleton,
         SpineBoneData[] @bones,
@@ -105,16 +109,18 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         SpineTransformConstraintData[] @transform,
         SpinePathConstraintData[] @path,
         SpineEventsData @events,
-        SpineSkinsData @skins)
+        SpineSkinsData @skins,
+        SpineAnimationsData @animations)
         {
             _skeleton = @skeleton;
-            _bones = @bones.ToList();
-            _slots = @slots.ToList();
-            _ik = @ik.ToList();
-            _transform = @transform.ToList();
-            _path = @path.ToList();
+            _bones = @bones?.ToList();
+            _slots = @slots?.ToList();
+            _ik = @ik?.ToList();
+            _transform = @transform?.ToList();
+            _path = @path?.ToList();
             _events = @events;
             _skins = @skins;
+            _animations = @animations;
         }
     }
 
@@ -164,6 +170,10 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public string Name => _name;
 
         [SerializeField]
+        private string _parent;
+        public string Parent => _parent;
+
+        [SerializeField]
         private float _length;
         public float Length => _length;
 
@@ -209,6 +219,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         public SpineBoneData(
         string @name,
+        string @parent,
         float @length,
         SpineBoneTransformType @transform,
         float @x,
@@ -222,6 +233,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         bool @inheritRotation)
         {
             _name = @name;
+            _parent = @parent;
             _length = @length;
             _transform = @transform;
             _x = @x;
@@ -287,7 +299,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         [SerializeField]
         private List<string> _bones;
-        public ReadOnlyCollection<string> Bones => _bones.AsReadOnly();
+        public ReadOnlyCollection<string> Bones => _bones?.AsReadOnly();
 
         [SerializeField]
         private string _target;
@@ -311,7 +323,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         {
             _name = @name;
             _order = @order;
-            _bones = @bones.ToList();
+            _bones = @bones?.ToList();
             _target = @target;
             _mix = @mix;
             _bendPositive = @bendPositive;
@@ -429,7 +441,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         [SerializeField]
         private List<string> _bones;
-        public ReadOnlyCollection<string> Bones => _bones.AsReadOnly();
+        public ReadOnlyCollection<string> Bones => _bones?.AsReadOnly();
 
         [SerializeField]
         private string _target;
@@ -483,7 +495,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         {
             _name = @name;
             _order = @order;
-            _bones = @bones.ToList();
+            _bones = @bones?.ToList();
             _target = @target;
             _positionMode = @positionMode;
             _spacingMode = @spacingMode;
@@ -545,23 +557,23 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         [SerializeField]
         private List<float> _uvs;
-        public ReadOnlyCollection<float> Uvs => _uvs.AsReadOnly();
+        public ReadOnlyCollection<float> Uvs => _uvs?.AsReadOnly();
 
         [SerializeField]
         private List<int> _triangles;
-        public ReadOnlyCollection<int> Triangles => _triangles.AsReadOnly();
+        public ReadOnlyCollection<int> Triangles => _triangles?.AsReadOnly();
 
         [SerializeField]
         private List<float> _vertices;
-        public ReadOnlyCollection<float> Vertices => _vertices.AsReadOnly();
+        public ReadOnlyCollection<float> Vertices => _vertices?.AsReadOnly();
 
         [SerializeField]
         private List<float> _hull;
-        public ReadOnlyCollection<float> Hull => _hull.AsReadOnly();
+        public ReadOnlyCollection<float> Hull => _hull?.AsReadOnly();
 
         [SerializeField]
         private List<int> _edges;
-        public ReadOnlyCollection<int> Edges => _edges.AsReadOnly();
+        public ReadOnlyCollection<int> Edges => _edges?.AsReadOnly();
 
         [SerializeField]
         private string _skin;
@@ -627,11 +639,11 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
             _width = @width;
             _height = @height;
             _color = @color;
-            _uvs = @uvs.ToList();
-            _triangles = @triangles.ToList();
-            _vertices = @vertices.ToList();
-            _hull = @hull.ToList();
-            _edges = @edges.ToList();
+            _uvs = @uvs?.ToList();
+            _triangles = @triangles?.ToList();
+            _vertices = @vertices?.ToList();
+            _hull = @hull?.ToList();
+            _edges = @edges?.ToList();
             _skin = @skin;
             _parent = @parent;
             _deform = @deform;
@@ -706,8 +718,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public float Time => _time;
 
         [SerializeField]
-        private string _curve;
-        public string Curve => _curve;
+        private List<float> _curve;
+        public ReadOnlyCollection<float> Curve => _curve?.AsReadOnly();
 
         [SerializeField]
         private float _angle;
@@ -715,11 +727,11 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         public SpineRotateKeyFrameData(
         float @time,
-        string @curve,
+        float[] @curve,
         float @angle)
         {
             _time = @time;
-            _curve = @curve;
+            _curve = @curve?.ToList();
             _angle = @angle;
         }
     }
@@ -732,8 +744,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public float Time => _time;
 
         [SerializeField]
-        private string _curve;
-        public string Curve => _curve;
+        private List<float> _curve;
+        public ReadOnlyCollection<float> Curve => _curve?.AsReadOnly();
 
         [SerializeField]
         private float _x;
@@ -745,12 +757,12 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         public SpineVectorKeyFrameData(
         float @time,
-        string @curve,
+        float[] @curve,
         float @x,
         float @y)
         {
             _time = @time;
-            _curve = @curve;
+            _curve = @curve?.ToList();
             _x = @x;
             _y = @y;
         }
@@ -761,19 +773,19 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     {
         [SerializeField]
         private List<SpineRotateKeyFrameData> _rotate;
-        public ReadOnlyCollection<SpineRotateKeyFrameData> Rotate => _rotate.AsReadOnly();
+        public ReadOnlyCollection<SpineRotateKeyFrameData> Rotate => _rotate?.AsReadOnly();
 
         [SerializeField]
         private List<SpineVectorKeyFrameData> _translate;
-        public ReadOnlyCollection<SpineVectorKeyFrameData> Translate => _translate.AsReadOnly();
+        public ReadOnlyCollection<SpineVectorKeyFrameData> Translate => _translate?.AsReadOnly();
 
         [SerializeField]
         private List<SpineVectorKeyFrameData> _scale;
-        public ReadOnlyCollection<SpineVectorKeyFrameData> Scale => _scale.AsReadOnly();
+        public ReadOnlyCollection<SpineVectorKeyFrameData> Scale => _scale?.AsReadOnly();
 
         [SerializeField]
         private List<SpineVectorKeyFrameData> _shear;
-        public ReadOnlyCollection<SpineVectorKeyFrameData> Shear => _shear.AsReadOnly();
+        public ReadOnlyCollection<SpineVectorKeyFrameData> Shear => _shear?.AsReadOnly();
 
         public SpineBoneTimeLineData(
         SpineRotateKeyFrameData[] @rotate,
@@ -781,10 +793,10 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         SpineVectorKeyFrameData[] @scale,
         SpineVectorKeyFrameData[] @shear)
         {
-            _rotate = @rotate.ToList();
-            _translate = @translate.ToList();
-            _scale = @scale.ToList();
-            _shear = @shear.ToList();
+            _rotate = @rotate?.ToList();
+            _translate = @translate?.ToList();
+            _scale = @scale?.ToList();
+            _shear = @shear?.ToList();
         }
     }
 
@@ -824,8 +836,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public float Time => _time;
 
         [SerializeField]
-        private string _curve;
-        public string Curve => _curve;
+        private List<float> _curve;
+        public ReadOnlyCollection<float> Curve => _curve?.AsReadOnly();
 
         [SerializeField]
         private Color _color;
@@ -833,11 +845,11 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         public SpineColorKeyFrameData(
         float @time,
-        string @curve,
+        float[] @curve,
         Color @color)
         {
             _time = @time;
-            _curve = @curve;
+            _curve = @curve?.ToList();
             _color = @color;
         }
     }
@@ -847,18 +859,18 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     {
         [SerializeField]
         private List<SpineAttachmentKeyFrameData> _attachment;
-        public ReadOnlyCollection<SpineAttachmentKeyFrameData> Attachment => _attachment.AsReadOnly();
+        public ReadOnlyCollection<SpineAttachmentKeyFrameData> Attachment => _attachment?.AsReadOnly();
 
         [SerializeField]
         private List<SpineColorKeyFrameData> _color;
-        public ReadOnlyCollection<SpineColorKeyFrameData> Color => _color.AsReadOnly();
+        public ReadOnlyCollection<SpineColorKeyFrameData> Color => _color?.AsReadOnly();
 
         public SpineSlotTimeLineData(
         SpineAttachmentKeyFrameData[] @attachment,
         SpineColorKeyFrameData[] @color)
         {
-            _attachment = @attachment.ToList();
-            _color = @color.ToList();
+            _attachment = @attachment?.ToList();
+            _color = @color?.ToList();
         }
     }
 
@@ -878,8 +890,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public float Time => _time;
 
         [SerializeField]
-        private string _curve;
-        public string Curve => _curve;
+        private List<float> _curve;
+        public ReadOnlyCollection<float> Curve => _curve?.AsReadOnly();
 
         [SerializeField]
         private float _mix;
@@ -891,12 +903,12 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         public SpineIKConstraintKeyFrameData(
         float @time,
-        string @curve,
+        float[] @curve,
         float @mix,
         bool @bendPositive)
         {
             _time = @time;
-            _curve = @curve;
+            _curve = @curve?.ToList();
             _mix = @mix;
             _bendPositive = @bendPositive;
         }
@@ -918,8 +930,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public float Time => _time;
 
         [SerializeField]
-        private string _curve;
-        public string Curve => _curve;
+        private List<float> _curve;
+        public ReadOnlyCollection<float> Curve => _curve?.AsReadOnly();
 
         [SerializeField]
         private float _rotateMix;
@@ -939,14 +951,14 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         public SpineTransformConstraintKeyFrameData(
         float @time,
-        string @curve,
+        float[] @curve,
         float @rotateMix,
         float @translateMix,
         float @scaleMix,
         float @shearMix)
         {
             _time = @time;
-            _curve = @curve;
+            _curve = @curve?.ToList();
             _rotateMix = @rotateMix;
             _translateMix = @translateMix;
             _scaleMix = @scaleMix;
@@ -975,22 +987,22 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         [SerializeField]
         private List<float> _vertices;
-        public ReadOnlyCollection<float> Vertices => _vertices.AsReadOnly();
+        public ReadOnlyCollection<float> Vertices => _vertices?.AsReadOnly();
 
         [SerializeField]
-        private string _curve;
-        public string Curve => _curve;
+        private List<float> _curve;
+        public ReadOnlyCollection<float> Curve => _curve?.AsReadOnly();
 
         public SpineDeformKeyFrameData(
         float @time,
         int @offset,
         float[] @vertices,
-        string @curve)
+        float[] @curve)
         {
             _time = @time;
             _offset = @offset;
-            _vertices = @vertices.ToList();
-            _curve = @curve;
+            _vertices = @vertices?.ToList();
+            _curve = @curve?.ToList();
         }
     }
 
@@ -1121,11 +1133,11 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 
         [SerializeField]
         private List<SpineEventKeyframeData> _events;
-        public ReadOnlyCollection<SpineEventKeyframeData> Events => _events.AsReadOnly();
+        public ReadOnlyCollection<SpineEventKeyframeData> Events => _events?.AsReadOnly();
 
         [SerializeField]
         private List<SpineDrawOrderKeyFrameData> _draworder;
-        public ReadOnlyCollection<SpineDrawOrderKeyFrameData> Draworder => _draworder.AsReadOnly();
+        public ReadOnlyCollection<SpineDrawOrderKeyFrameData> Draworder => _draworder?.AsReadOnly();
 
         public SpineAnimationData(
         SpineBonesAnimationData @bones,
@@ -1141,8 +1153,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
             _ik = @ik;
             _transform = @transform;
             _deform = @deform;
-            _events = @events.ToList();
-            _draworder = @draworder.ToList();
+            _events = @events?.ToList();
+            _draworder = @draworder?.ToList();
         }
     }
 

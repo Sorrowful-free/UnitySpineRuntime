@@ -89,19 +89,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\BoundsConverter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\ColorConverter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\DictionaryConverter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\Matrix4x4Converter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\QuaternionConverter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\RectConverter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\RectOffsetConverter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\Vector2Converter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\Vector3Converter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Json\Vector4Converter.cs" />
-    <Compile Include="Assets\WanzyeeStudio\Scripts\Basic\Utility\JsonNetUtility.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets\Libraries\Newtonsoft.Json.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

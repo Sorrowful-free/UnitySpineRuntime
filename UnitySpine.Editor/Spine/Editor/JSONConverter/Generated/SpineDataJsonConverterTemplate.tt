@@ -19,19 +19,19 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
 <#  foreach(var classObj in classes)
     {#>
 
-    public class <#=classObj.Key.Item1 #>JsonConverter : <#=string.IsNullOrEmpty(classObj.Key.Item2)?string.Format("BaseSpineJsonConverter<{0}>",classObj.Key.Item1):string.Format("BaseSpineSerializableReadOnlyDictionaryJsonConverter<{0}>",classObj.Key.Item1.Substring(classObj.Key.Item1.IndexOf(",")+1)) #>
+    public class <#=classObj.Key.Item1 #>JsonConverter : <#=string.IsNullOrEmpty(classObj.Key.Item2)?string.Format("BaseSpineJsonConverter<{0}>",classObj.Key.Item1):string.Format("BaseSpineSerializableReadOnlyDictionaryJsonConverter<{0}>",classObj.Key.Item2.Substring(classObj.Key.Item2.IndexOf(",")+1)) #>
     {
 <#      if(string.IsNullOrEmpty(classObj.Key.Item2))
         {#>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var jsonArray = JArray.Load(reader);
+            var jsonObj = JObject.Load(reader);
 <#          foreach(var prop in classObj.Value)
             {
                 var isEnum = prop.Item1.EndsWith(enumPostFix);
                 var isColor = prop.Item1 == "Color" || prop.Item1 == "Color[]";
 #>
-            var @<#=prop.Item2 #> = jsonArray.<#=isEnum?"TryGetEnum":isColor?"TryGetColor":"TryGet"#><#=isColor?"":string.Format("<{0}>",prop.Item1)#>("<#=prop.Item2 #>", serializer<#=string.IsNullOrEmpty(prop.Item3)?"":","+(isColor?string.Format("\"{0}\"",prop.Item3):isEnum?string.Format("{0}.{1}",prop.Item1,MakeFirstCharUpper(prop.Item3)):prop.Item3)#>);
+            var @<#=prop.Item2 #> = jsonObj.<#=isEnum?"TryGetEnum":isColor?"TryGetColor":"TryGet"#><#=isColor?"":string.Format("<{0}>",prop.Item1)#>("<#=prop.Item2 #>", serializer<#=string.IsNullOrEmpty(prop.Item3)?"":", "+(isColor?string.Format("\"{0}\"",prop.Item3):isEnum?string.Format("{0}.{1}",prop.Item1,MakeFirstCharUpper(prop.Item3)):prop.Item3)#>);
 <#          } #>
 
             return new <#=classObj.Key.Item1#>(

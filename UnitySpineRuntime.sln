@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySpineRuntime.CSharp", "UnitySpineRuntime.CSharp.csproj", "{66C61E4F-B9D4-540E-EE55-C3EA0977A113}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySpine.Runtime", "UnitySpine.Runtime\UnitySpine.Runtime.csproj", "{12FCF0E5-8711-4EC6-81AC-57C3B33905D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySpine.Editor", "UnitySpine.Editor\UnitySpine.Editor.csproj", "{137D34FE-9C98-4C0C-879A-A63A73F7ACD4}"
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{66C61E4F-B9D4-540E-EE55-C3EA0977A113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{66C61E4F-B9D4-540E-EE55-C3EA0977A113}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{66C61E4F-B9D4-540E-EE55-C3EA0977A113}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{66C61E4F-B9D4-540E-EE55-C3EA0977A113}.Release|Any CPU.Build.0 = Release|Any CPU
 		{12FCF0E5-8711-4EC6-81AC-57C3B33905D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12FCF0E5-8711-4EC6-81AC-57C3B33905D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12FCF0E5-8711-4EC6-81AC-57C3B33905D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
