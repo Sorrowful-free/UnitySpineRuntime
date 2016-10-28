@@ -1,7 +1,7 @@
 Settings = {
 	string: Prefix = "Spine"
 	string: Postfix = "Data"
-	string: EnumPostfix = "Type"
+	string: EnumPostfix = "Enum"
 }
 
  = {
@@ -21,7 +21,7 @@ Skeleton = {
 	string: version
 	float: width
 	float: height
-	string: images
+	string: images(editor)
 }
 
 Bone = {
@@ -107,7 +107,7 @@ Attachment = {
 	int[]: triangles
 	float[]: vertices
 	float[]: hull
-	int[]: edges
+	int[]: edges(editor)
 	string: skin
 	string: parent
 	bool: deform = true
@@ -117,7 +117,9 @@ Attachment = {
 	float: lengths
 }
 
-Skin = <string,Attachment>
+Attachments = <string,Attachment>
+
+Skin = <string,Attachments>
 
 Skins = <string,Skin>
 
@@ -132,13 +134,13 @@ Events = <string,Event>
 
 RotateKeyFrame = {
 	float: time
-	float[]: curve
+	float[]: curve = [0,0,1,1]
 	float: angle
 }
 
 VectorKeyFrame = {
 	float: time
-	float[]: curve
+	float[]: curve = [0,0,1,1]
 	float: x
 	float: y
 }
@@ -159,7 +161,7 @@ AttachmentKeyFrame = {
 
 ColorKeyFrame = {
 	float: time
-	float[]: curve
+	float[]: curve = [0,0,1,1]
 	Color: color = 0xFFFFFFFF
 }
 
@@ -172,7 +174,7 @@ SlotsAnimation = <string,SlotTimeLine>
 
 IKConstraintKeyFrame = {
 	float: time
-	float[]: curve
+	float[]: curve = [0,0,1,1]
 	float: mix
 	bool: bendPositive	
 }
@@ -182,7 +184,7 @@ IKConstraintsAnimation =<string,IKConstraintKeyFrame[]>
 
 TransformConstraintKeyFrame ={
 	float: time
-	float[]: curve
+	float[]: curve = [0,0,1,1]
 	float: rotateMix = 1
 	float: translateMix = 1
 	float: scaleMix = 1
@@ -195,7 +197,7 @@ DeformKeyFrame ={
 	float: time
 	int: offset
 	float[]: vertices
-	float[]: curve
+	float[]: curve = [0,0,1,1]
 }
 
 DeformTimeLine =<string,DeformKeyFrame[]>

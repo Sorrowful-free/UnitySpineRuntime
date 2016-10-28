@@ -14,7 +14,9 @@ using UnityEngine;
 
 namespace UnitySpine.Runtime.Spine.Runtime.Data
 {
-<#  var enums = GetAllEnums(); #>
+<#  
+    var includeEditor = false;
+    var enums = GetAllEnums(includeEditor); #>
 // generated enums <#=enums.Count #>
 #region enums
 <#  foreach(var enumObj in enums)
@@ -32,7 +34,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 #endregion
 
 
-<#  var classes = GetAllClasses(false);#>
+<#  var classes = GetAllClasses(false,includeEditor);#>
 // generated classes <#=classes.Count #>
 #region classes
 <#  foreach(var classObj in classes)

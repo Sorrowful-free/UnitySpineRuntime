@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -38,16 +39,97 @@ namespace UnitySpine.Editor.Spine.Editor
                 {
                     var assetText = asset.text;
                     assetText =
-                        assetText.Replace("\"curve\": \"stepped\"", "\"curve\": [2,0,1,-1]")
-                            .Replace("\"curve\": \"linear\"", "\"curve\": [0,0,1,1]");
+                        assetText.Replace("\"curve\": \"stepped\"", "\"curve\": []")
+                                 .Replace("\"curve\": \"linear\"", "\"curve\": [0,0,1,1]");
                     var data = JsonConvert.DeserializeObject<SpineData>(assetText);
-                    
-                    Debug.Log($"bones:{data.Bones.Count}\n{string.Join("\n", data.Bones.Select(e => $"name:{e.Name}, length:{e.Length}, parent:{e.Parent}").ToArray())}");
-                    Debug.Log($"slots:{data.Slots.Count}\n{string.Join("\n", data.Slots.Select(e => $"name:{e.Name}, Attachment:{e.Attachment}").ToArray())}");
-                    Debug.Log($"skins:{data.Skins.Count}\n{string.Join("\n", data.Skins.Select(e => $"name:{e.Key}, elementCount:{e.Value.Count}").ToArray())}");
-                    Debug.Log($"animations:{data.Animations.Count}\n{string.Join("\n", data.Animations.Select(e => $"name:{e.Key},boneTimeLines:{e.Value.Bones.Count}").ToArray())}");
+                    MakeSpine(data);
                 }
             }
         }
+
+        private static void MakeSpine(SpineData data)
+        {
+            var bones = MakeBones(data.Bones);
+            var slots = MakeSlots(data.Slots, bones);
+            foreach (var skin in data.Skins)
+            {
+                foreach (var slotInfo in skin.Value)
+                {
+                    // MakeAttachments(attachmentsData.ToDictionary(e => e.Key, e => e.Value), slots, data.Slots);
+                    MakeSlotAttachment(slots[slotInfo.Key], slotInfo.Value.ToDictionary(e => e.Key, e => e.Value));
+                }
+            }
+        }
+
+        private static Dictionary<string, Transform> MakeBones(IEnumerable<SpineBoneData> bones)
+        {
+            //make bones
+            var bonesByName = new Dictionary<string, Transform>();
+            foreach (var bone in bones)
+            {
+                var boneGO = new GameObject(bone.Name);
+                bonesByName.Add(bone.Name, boneGO.transform);
+            }
+            //reparent
+            foreach (var bone in bones)
+            {
+                if (!string.IsNullOrEmpty(bone.Parent))
+                {
+                    var childBone = bonesByName[bone.Name];
+                    var parentBone = bonesByName[bone.Parent];
+                    childBone.SetParent(parentBone,false);
+                }
+            }
+            return bonesByName;
+        }
+
+        private static Dictionary<string, Transform> MakeSlots(IEnumerable<SpineSlotData> slots,
+            Dictionary<string, Transform> bones)
+        {
+            var slotsByName = new Dictionary<string, Transform>();
+            foreach (var slot in slots)
+            {
+                var slotGO = new GameObject(slot.Name);
+                var boneTransform = default(Transform);
+                if (bones.TryGetValue(slot.Bone, out boneTransform))
+                {
+                    slotGO.transform.SetParent(boneTransform);
+                }
+                slotsByName.Add(slot.Name,slotGO.transform);
+            }
+            return slotsByName;
+        }
+
+        private static void MakeSlotAttachment(Transform slotTransform, Dictionary<string, SpineAttachmentData> attachments)
+        {
+            foreach (var attachment in attachments)
+            {
+                var name = string.IsNullOrEmpty(attachment.Value.Name) ? attachment.Key : attachment.Value.Name;
+                var attachmentGO = new GameObject(name);
+                attachmentGO.transform.SetParent(slotTransform,false);
+            }
+        }
+
+        //private static Dictionary<string, Transform> MakeAttachments(Dictionary<string,SpineAttachmentData> attachments, Dictionary<string, Transform> slotsByName, IEnumerable<SpineSlotData> slots)
+        //{
+        //    var attachmentsByName = new Dictionary<string, Transform>();
+        //    foreach (var attachment in attachments)
+        //    {
+        //        var name = string.IsNullOrEmpty(attachment.Value.Name) ? attachment.Key : attachment.Value.Name;
+        //        var attachmentGO = new GameObject(name);
+        //        attachmentsByName.Add(name, attachmentGO.transform);
+        //    }
+        //    foreach (var slot in slots)
+        //    {
+        //        var attachmentTransfrom = default(Transform);
+        //        var slotTransform = default(Transform);
+        //        if(!string.IsNullOrEmpty(slot.Attachment) && !string.IsNullOrEmpty(slot.Name) && attachmentsByName.TryGetValue(slot.Attachment, out attachmentTransfrom) && slotsByName.TryGetValue(slot.Name,out slotTransform))
+        //        {
+        //            attachmentTransfrom.SetParent(slotTransform,false);
+        //        }
+
+        //    }
+        //    return attachmentsByName;
+        //}
     }
 }

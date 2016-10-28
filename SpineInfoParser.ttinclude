@@ -49,10 +49,10 @@
     /// enumName
     ///     enumValues
     /// </summary>
-    public Dictionary<string, List<string>> GetAllEnums()
+    public Dictionary<string, List<string>> GetAllEnums(bool includeEditor)
     {
         var enums = new Dictionary<string, List<string>>();
-        var categories = GetAllClasses(true);
+        var categories = GetAllClasses(true,includeEditor);
         var prefix = GetPrefix();
         var postfix= GetEnumPostfix();
 
@@ -83,7 +83,7 @@
     ///     objectName
     ///         prop - defaultValue
     /// </summary>
-    public Dictionary<Tuple<string,string>, List<Tuple<string, string, string>>> GetAllClasses(bool raw)
+    public Dictionary<Tuple<string,string>, List<Tuple<string, string, string>>> GetAllClasses(bool raw,bool includeEditor)
     {
         var lines = GetAllLines();
             
@@ -158,7 +158,7 @@
                 var propName = propFormated[1];
                 var isString = propType.Contains("string");
 
-                if(propName.Contains("(editor)") && !raw)
+                if(propName.Contains("(editor)") && !includeEditor)
                     continue;
                     
                 propName = propName.Replace("(editor)","");    
@@ -218,7 +218,7 @@
 
     private string GetPrefix()
     {
-        var categories = GetAllClasses(true);
+        var categories = GetAllClasses(true,true);
         
         if(categories.Any(e=>e.Key.Item1 == "Settings"))
         {
@@ -230,7 +230,7 @@
 
     private string GetPostfix()
     {
-        var categories = GetAllClasses(true);
+        var categories = GetAllClasses(true,true);
         if(categories.Any(e=>e.Key.Item1 == "Settings"))
         {
             var category = categories.FirstOrDefault(e=>e.Key.Item1 == "Settings");
@@ -241,7 +241,7 @@
 
     private string GetEnumPostfix()
     {
-        var categories = GetAllClasses(true);
+        var categories = GetAllClasses(true,true);
         if(categories.Any(e=>e.Key.Item1 == "Settings"))
         {
             var category = categories.FirstOrDefault(e=>e.Key.Item1 == "Settings");        

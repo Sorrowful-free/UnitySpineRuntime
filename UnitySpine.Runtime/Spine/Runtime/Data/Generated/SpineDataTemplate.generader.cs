@@ -12,7 +12,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 // generated enums 6
 #region enums
  
-    public enum SpineBoneTransformType
+    public enum SpineBoneTransformEnum
     {
         Normal,
         OnlyTranslation,
@@ -21,7 +21,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         NoScaleOrReflection,
     }
  
-    public enum SpineSlotBlendType
+    public enum SpineSlotBlendEnum
     {
         Normal,
         Additive,
@@ -29,27 +29,27 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         Screen,
     }
  
-    public enum SpinePathConstraintPositionModeType
+    public enum SpinePathConstraintPositionModeEnum
     {
         Fixed,
         Percent,
     }
  
-    public enum SpinePathConstraintSpacingModeType
+    public enum SpinePathConstraintSpacingModeEnum
     {
         Length,
         Fixed,
         Percent,
     }
  
-    public enum SpinePathConstraintRotateModeType
+    public enum SpinePathConstraintRotateModeEnum
     {
         Tangent,
         Chain,
         ChainScale,
     }
  
-    public enum SpineAttachmentTypeType
+    public enum SpineAttachmentTypeEnum
     {
         Region,
         Mesh,
@@ -60,7 +60,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
 #endregion
 
 
-// generated classes 33
+// generated classes 34
 #region classes
     [Serializable]
     public class SpineData 
@@ -143,22 +143,16 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         private float _height;
         public float Height => _height;
 
-        [SerializeField]
-        private string _images;
-        public string Images => _images;
-
         public SpineSkeletonData(
         string @hash,
         string @version,
         float @width,
-        float @height,
-        string @images)
+        float @height)
         {
             _hash = @hash;
             _version = @version;
             _width = @width;
             _height = @height;
-            _images = @images;
         }
     }
 
@@ -178,8 +172,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public float Length => _length;
 
         [SerializeField]
-        private SpineBoneTransformType _transform;
-        public SpineBoneTransformType Transform => _transform;
+        private SpineBoneTransformEnum _transform;
+        public SpineBoneTransformEnum Transform => _transform;
 
         [SerializeField]
         private float _x;
@@ -221,7 +215,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         string @name,
         string @parent,
         float @length,
-        SpineBoneTransformType @transform,
+        SpineBoneTransformEnum @transform,
         float @x,
         float @y,
         float @rotation,
@@ -268,15 +262,15 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public string Attachment => _attachment;
 
         [SerializeField]
-        private SpineSlotBlendType _blend;
-        public SpineSlotBlendType Blend => _blend;
+        private SpineSlotBlendEnum _blend;
+        public SpineSlotBlendEnum Blend => _blend;
 
         public SpineSlotData(
         string @name,
         string @bone,
         Color @color,
         string @attachment,
-        SpineSlotBlendType @blend)
+        SpineSlotBlendEnum @blend)
         {
             _name = @name;
             _bone = @bone;
@@ -448,16 +442,16 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public string Target => _target;
 
         [SerializeField]
-        private SpinePathConstraintPositionModeType _positionMode;
-        public SpinePathConstraintPositionModeType PositionMode => _positionMode;
+        private SpinePathConstraintPositionModeEnum _positionMode;
+        public SpinePathConstraintPositionModeEnum PositionMode => _positionMode;
 
         [SerializeField]
-        private SpinePathConstraintSpacingModeType _spacingMode;
-        public SpinePathConstraintSpacingModeType SpacingMode => _spacingMode;
+        private SpinePathConstraintSpacingModeEnum _spacingMode;
+        public SpinePathConstraintSpacingModeEnum SpacingMode => _spacingMode;
 
         [SerializeField]
-        private SpinePathConstraintRotateModeType _rotateMode;
-        public SpinePathConstraintRotateModeType RotateMode => _rotateMode;
+        private SpinePathConstraintRotateModeEnum _rotateMode;
+        public SpinePathConstraintRotateModeEnum RotateMode => _rotateMode;
 
         [SerializeField]
         private float _rotation;
@@ -484,9 +478,9 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         int @order,
         string[] @bones,
         string @target,
-        SpinePathConstraintPositionModeType @positionMode,
-        SpinePathConstraintSpacingModeType @spacingMode,
-        SpinePathConstraintRotateModeType @rotateMode,
+        SpinePathConstraintPositionModeEnum @positionMode,
+        SpinePathConstraintSpacingModeEnum @spacingMode,
+        SpinePathConstraintRotateModeEnum @rotateMode,
         float @rotation,
         float @position,
         float @spacing,
@@ -512,8 +506,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     public class SpineAttachmentData 
     {
         [SerializeField]
-        private SpineAttachmentTypeType _type;
-        public SpineAttachmentTypeType Type => _type;
+        private SpineAttachmentTypeEnum _type;
+        public SpineAttachmentTypeEnum Type => _type;
 
         [SerializeField]
         private string _name;
@@ -572,10 +566,6 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public ReadOnlyCollection<float> Hull => _hull?.AsReadOnly();
 
         [SerializeField]
-        private List<int> _edges;
-        public ReadOnlyCollection<int> Edges => _edges?.AsReadOnly();
-
-        [SerializeField]
         private string _skin;
         public string Skin => _skin;
 
@@ -604,7 +594,7 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         public float Lengths => _lengths;
 
         public SpineAttachmentData(
-        SpineAttachmentTypeType @type,
+        SpineAttachmentTypeEnum @type,
         string @name,
         string @path,
         float @x,
@@ -619,7 +609,6 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
         int[] @triangles,
         float[] @vertices,
         float[] @hull,
-        int[] @edges,
         string @skin,
         string @parent,
         bool @deform,
@@ -643,7 +632,6 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
             _triangles = @triangles?.ToList();
             _vertices = @vertices?.ToList();
             _hull = @hull?.ToList();
-            _edges = @edges?.ToList();
             _skin = @skin;
             _parent = @parent;
             _deform = @deform;
@@ -655,9 +643,17 @@ namespace UnitySpine.Runtime.Spine.Runtime.Data
     }
 
     [Serializable]
-    public class SpineSkinData : SerializableReadOnlyDictionary<string,SpineAttachmentData>
+    public class SpineAttachmentsData : SerializableReadOnlyDictionary<string,SpineAttachmentData>
     {
-        public SpineSkinData(IDictionary<string,SpineAttachmentData> dictionary) : base(dictionary)
+        public SpineAttachmentsData(IDictionary<string,SpineAttachmentData> dictionary) : base(dictionary)
+        {
+        }
+    }
+
+    [Serializable]
+    public class SpineSkinData : SerializableReadOnlyDictionary<string,SpineAttachmentsData>
+    {
+        public SpineSkinData(IDictionary<string,SpineAttachmentsData> dictionary) : base(dictionary)
         {
         }
     }

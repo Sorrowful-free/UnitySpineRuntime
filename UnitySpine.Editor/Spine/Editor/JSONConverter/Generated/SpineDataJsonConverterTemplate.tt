@@ -11,8 +11,10 @@ using Newtonsoft.Json.Linq;
 using UnitySpine.Editor.Spine.Editor.JSONExtention;
 using UnitySpine.Runtime.Spine.Runtime.Data;
 
-<#var classes = GetAllClasses(false); 
-var enumPostFix = GetEnumPostfix();#>
+<#
+    var includeEditor = false;
+    var classes = GetAllClasses(false,includeEditor); 
+    var enumPostFix = GetEnumPostfix();#>
 namespace UnitySpine.Editor.Spine.Editor.JSONConverter
 {
 // generated converters <#=classes.Count() #>
@@ -30,8 +32,21 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             {
                 var isEnum = prop.Item1.EndsWith(enumPostFix);
                 var isColor = prop.Item1 == "Color" || prop.Item1 == "Color[]";
-#>
-            var @<#=prop.Item2 #> = jsonObj.<#=isEnum?"TryGetEnum":isColor?"TryGetColor":"TryGet"#><#=isColor?"":string.Format("<{0}>",prop.Item1)#>("<#=prop.Item2 #>", serializer<#=string.IsNullOrEmpty(prop.Item3)?"":", "+(isColor?string.Format("\"{0}\"",prop.Item3):isEnum?string.Format("{0}.{1}",prop.Item1,MakeFirstCharUpper(prop.Item3)):prop.Item3)#>);
+                var isArray = prop.Item1.Contains("[") && prop.Item1.Contains("]");
+                var haveDefaultValue = !string.IsNullOrEmpty(prop.Item3);
+                var defaultValue = "";
+                if(haveDefaultValue)
+                {
+                    if(isEnum)
+                        defaultValue = string.Format(", {0}.{1}",prop.Item1,MakeFirstCharUpper(prop.Item3));
+                    else if(isColor)
+                        defaultValue = string.Format(", \"{0}\"",prop.Item3);
+                    else if(isArray)
+                        defaultValue = string.Format(", new {0} {1}",prop.Item1,prop.Item3.Replace("[","{").Replace("]","}"));
+                    else
+                        defaultValue = string.Format(", {0}",prop.Item3);
+                }#>
+            var @<#=prop.Item2 #> = jsonObj.<#=isEnum?"TryGetEnum":isColor?"TryGetColor":"TryGet"#><#=isColor?"":string.Format("<{0}>",prop.Item1)#>("<#=prop.Item2 #>", serializer<#=defaultValue#>);
 <#          } #>
 
             return new <#=classObj.Key.Item1#>(

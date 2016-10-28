@@ -8,7 +8,7 @@ using UnitySpine.Runtime.Spine.Runtime.Data;
 
 namespace UnitySpine.Editor.Spine.Editor.JSONConverter
 {
-// generated converters 33
+// generated converters 34
 
     public class SpineDataJsonConverter : BaseSpineJsonConverter<SpineData>
     {
@@ -47,14 +47,12 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             var @version = jsonObj.TryGet<string>("version", serializer);
             var @width = jsonObj.TryGet<float>("width", serializer);
             var @height = jsonObj.TryGet<float>("height", serializer);
-            var @images = jsonObj.TryGet<string>("images", serializer);
 
             return new SpineSkeletonData(
             @hash,
             @version,
             @width,
-            @height,
-            @images);
+            @height);
         }
     }
 
@@ -66,7 +64,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             var @name = jsonObj.TryGet<string>("name", serializer);
             var @parent = jsonObj.TryGet<string>("parent", serializer);
             var @length = jsonObj.TryGet<float>("length", serializer);
-            var @transform = jsonObj.TryGetEnum<SpineBoneTransformType>("transform", serializer, SpineBoneTransformType.Normal);
+            var @transform = jsonObj.TryGetEnum<SpineBoneTransformEnum>("transform", serializer, SpineBoneTransformEnum.Normal);
             var @x = jsonObj.TryGet<float>("x", serializer);
             var @y = jsonObj.TryGet<float>("y", serializer);
             var @rotation = jsonObj.TryGet<float>("rotation", serializer);
@@ -103,7 +101,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             var @bone = jsonObj.TryGet<string>("bone", serializer);
             var @color = jsonObj.TryGetColor("color", serializer, "0xFFFFFFFF");
             var @attachment = jsonObj.TryGet<string>("attachment", serializer);
-            var @blend = jsonObj.TryGetEnum<SpineSlotBlendType>("blend", serializer, SpineSlotBlendType.Normal);
+            var @blend = jsonObj.TryGetEnum<SpineSlotBlendEnum>("blend", serializer, SpineSlotBlendEnum.Normal);
 
             return new SpineSlotData(
             @name,
@@ -185,9 +183,9 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             var @order = jsonObj.TryGet<int>("order", serializer);
             var @bones = jsonObj.TryGet<string[]>("bones", serializer);
             var @target = jsonObj.TryGet<string>("target", serializer);
-            var @positionMode = jsonObj.TryGetEnum<SpinePathConstraintPositionModeType>("positionMode", serializer, SpinePathConstraintPositionModeType.Percent);
-            var @spacingMode = jsonObj.TryGetEnum<SpinePathConstraintSpacingModeType>("spacingMode", serializer, SpinePathConstraintSpacingModeType.Length);
-            var @rotateMode = jsonObj.TryGetEnum<SpinePathConstraintRotateModeType>("rotateMode", serializer, SpinePathConstraintRotateModeType.Tangent);
+            var @positionMode = jsonObj.TryGetEnum<SpinePathConstraintPositionModeEnum>("positionMode", serializer, SpinePathConstraintPositionModeEnum.Percent);
+            var @spacingMode = jsonObj.TryGetEnum<SpinePathConstraintSpacingModeEnum>("spacingMode", serializer, SpinePathConstraintSpacingModeEnum.Length);
+            var @rotateMode = jsonObj.TryGetEnum<SpinePathConstraintRotateModeEnum>("rotateMode", serializer, SpinePathConstraintRotateModeEnum.Tangent);
             var @rotation = jsonObj.TryGet<float>("rotation", serializer);
             var @position = jsonObj.TryGet<float>("position", serializer);
             var @spacing = jsonObj.TryGet<float>("spacing", serializer);
@@ -215,7 +213,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jsonObj = JObject.Load(reader);
-            var @type = jsonObj.TryGetEnum<SpineAttachmentTypeType>("type", serializer, SpineAttachmentTypeType.Region);
+            var @type = jsonObj.TryGetEnum<SpineAttachmentTypeEnum>("type", serializer, SpineAttachmentTypeEnum.Region);
             var @name = jsonObj.TryGet<string>("name", serializer);
             var @path = jsonObj.TryGet<string>("path", serializer);
             var @x = jsonObj.TryGet<float>("x", serializer);
@@ -230,7 +228,6 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             var @triangles = jsonObj.TryGet<int[]>("triangles", serializer);
             var @vertices = jsonObj.TryGet<float[]>("vertices", serializer);
             var @hull = jsonObj.TryGet<float[]>("hull", serializer);
-            var @edges = jsonObj.TryGet<int[]>("edges", serializer);
             var @skin = jsonObj.TryGet<string>("skin", serializer);
             var @parent = jsonObj.TryGet<string>("parent", serializer);
             var @deform = jsonObj.TryGet<bool>("deform", serializer, true);
@@ -255,7 +252,6 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             @triangles,
             @vertices,
             @hull,
-            @edges,
             @skin,
             @parent,
             @deform,
@@ -266,7 +262,11 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         }
     }
 
-    public class SpineSkinDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineAttachmentData>
+    public class SpineAttachmentsDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineAttachmentData>
+    {
+    }
+
+    public class SpineSkinDataJsonConverter : BaseSpineSerializableReadOnlyDictionaryJsonConverter<SpineAttachmentsData>
     {
     }
 
@@ -302,7 +302,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         {
             var jsonObj = JObject.Load(reader);
             var @time = jsonObj.TryGet<float>("time", serializer);
-            var @curve = jsonObj.TryGet<float[]>("curve", serializer);
+            var @curve = jsonObj.TryGet<float[]>("curve", serializer, new float[] {0,0,1,1});
             var @angle = jsonObj.TryGet<float>("angle", serializer);
 
             return new SpineRotateKeyFrameData(
@@ -318,7 +318,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         {
             var jsonObj = JObject.Load(reader);
             var @time = jsonObj.TryGet<float>("time", serializer);
-            var @curve = jsonObj.TryGet<float[]>("curve", serializer);
+            var @curve = jsonObj.TryGet<float[]>("curve", serializer, new float[] {0,0,1,1});
             var @x = jsonObj.TryGet<float>("x", serializer);
             var @y = jsonObj.TryGet<float>("y", serializer);
 
@@ -372,7 +372,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         {
             var jsonObj = JObject.Load(reader);
             var @time = jsonObj.TryGet<float>("time", serializer);
-            var @curve = jsonObj.TryGet<float[]>("curve", serializer);
+            var @curve = jsonObj.TryGet<float[]>("curve", serializer, new float[] {0,0,1,1});
             var @color = jsonObj.TryGetColor("color", serializer, "0xFFFFFFFF");
 
             return new SpineColorKeyFrameData(
@@ -406,7 +406,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         {
             var jsonObj = JObject.Load(reader);
             var @time = jsonObj.TryGet<float>("time", serializer);
-            var @curve = jsonObj.TryGet<float[]>("curve", serializer);
+            var @curve = jsonObj.TryGet<float[]>("curve", serializer, new float[] {0,0,1,1});
             var @mix = jsonObj.TryGet<float>("mix", serializer);
             var @bendPositive = jsonObj.TryGet<bool>("bendPositive", serializer);
 
@@ -428,7 +428,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
         {
             var jsonObj = JObject.Load(reader);
             var @time = jsonObj.TryGet<float>("time", serializer);
-            var @curve = jsonObj.TryGet<float[]>("curve", serializer);
+            var @curve = jsonObj.TryGet<float[]>("curve", serializer, new float[] {0,0,1,1});
             var @rotateMix = jsonObj.TryGet<float>("rotateMix", serializer, 1);
             var @translateMix = jsonObj.TryGet<float>("translateMix", serializer, 1);
             var @scaleMix = jsonObj.TryGet<float>("scaleMix", serializer, 1);
@@ -456,7 +456,7 @@ namespace UnitySpine.Editor.Spine.Editor.JSONConverter
             var @time = jsonObj.TryGet<float>("time", serializer);
             var @offset = jsonObj.TryGet<int>("offset", serializer);
             var @vertices = jsonObj.TryGet<float[]>("vertices", serializer);
-            var @curve = jsonObj.TryGet<float[]>("curve", serializer);
+            var @curve = jsonObj.TryGet<float[]>("curve", serializer, new float[] {0,0,1,1});
 
             return new SpineDeformKeyFrameData(
             @time,
