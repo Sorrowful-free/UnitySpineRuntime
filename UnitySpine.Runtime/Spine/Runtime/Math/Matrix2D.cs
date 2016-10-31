@@ -38,16 +38,39 @@ namespace UnitySpine.Runtime.Spine.Runtime.Math
             var d = D;
             var tx = TX;
             var ty = TY;
-            A = other.A * a + other.C * b;
-            B = other.B * a + other.D * b;
-            C = other.A * c + other.C * d;
-            D = other.B * c + other.D * d;
+
+            if (!includeRotation)
+            {
+                var acLength = Mathf.Sqrt(other.A * other.A + other.C * other.C);
+                var bdLength = Mathf.Sqrt(other.B * other.B + other.D * other.D);
+                other.A = acLength;
+                other.D = bdLength;
+                other.B = other.C = 0;
+            }
+            else if(!includeScale)
+            {
+                var acLength = Mathf.Sqrt(other.A * other.A + other.C * other.C);
+                var bdLength = Mathf.Sqrt(other.B * other.B + other.D * other.D);
+                other.A /= acLength;
+                other.B /= bdLength;
+                other.C /= acLength;
+                other.D /= bdLength;
+            }
+
+            if (includeRotation || includeScale)
+            {
+                A = other.A * a + other.C * b;
+                B = other.B * a + other.D * b;
+                C = other.A * c + other.C * d;
+                D = other.B * c + other.D * d;
+            }
+
             TX = other.A * tx + other.C * ty + other.TX;
             TY = other.B * tx + other.D * ty + other.TY;
             return this;
         }
 
-        public Matrix2D CreateBox(float scaleX, float scaleY, float tx = 0, float ty = 0, float rotation = 0, float shearX = 0,float shearY = 0)
+        public Matrix2D Make(float scaleX, float scaleY, float tx = 0, float ty = 0, float rotation = 0, float shearX = 0,float shearY = 0)
         {
             if (rotation == 0.0f && shearX == 0.0f && shearY == 0.0f)
             {
@@ -56,8 +79,8 @@ namespace UnitySpine.Runtime.Spine.Runtime.Math
             }
             else
             {
-                A = Mathf.Cos(Mathf.Deg2Rad * rotation + shearX);
-                B = Mathf.Sin(Mathf.Deg2Rad * rotation + shearY);
+                A = Mathf.Cos(Mathf.Deg2Rad * (rotation + shearX));
+                B = Mathf.Sin(Mathf.Deg2Rad * (rotation + shearY));
                 C = -B;
                 D = A;
             }
@@ -94,11 +117,26 @@ namespace UnitySpine.Runtime.Spine.Runtime.Math
             return this;
         }
         
-        public Vector2 TransformVector(Vector2 vector)
+        public static Vector2 operator *(Matrix2D m, Vector2 v)
         {
-            return new Vector2(A * vector.x + C * vector.y + TX, B * vector.x + D * vector.y + TY);
+            return new Vector2(m.A * v.x + m.C * v.y + m.TX, m.B * v.x + m.D * v.y + m.TY);
         }
 
+        public static Vector2 operator *(Vector2 v, Matrix2D m)
+        {
+            return m*v;
+        }
+
+        public static Vector3 operator *(Matrix2D m, Vector3 v)
+        {
+            return new Vector3(m.A * v.x + m.C * v.y + m.TX, m.B * v.x + m.D * v.y + m.TY);
+        }
+
+        public static Vector3 operator *(Vector3 v, Matrix2D m)
+        {
+            return m * v;
+        }
+        
         public override string ToString()
         {
             return string.Format("(a:{0},b:{1},c:{2},d:{3},tx:{4},ty:{5})", A, B, C, D, TX, TY);

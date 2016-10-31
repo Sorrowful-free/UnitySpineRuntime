@@ -87,6 +87,18 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Libraries\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="UnitySpine.Editor">
+      <HintPath>Assets\Libraries\UnitySpine.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnitySpine.Runtime">
+      <HintPath>Assets\Libraries\UnitySpine.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\DoubleBufferingMesh.cs" />
+    <Compile Include="Assets\Options.cs" />
+    <Compile Include="Assets\TestMesh.cs" />
+    <Compile Include="Assets\TestTransform.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Libraries\Newtonsoft.Json.xml" />

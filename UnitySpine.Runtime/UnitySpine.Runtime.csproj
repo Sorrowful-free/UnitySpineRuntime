@@ -46,8 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spine\Runtime\BaseInheritSpineObject.cs" />
-    <Compile Include="Spine\Runtime\Bone\SpineBone.cs" />
+    <Compile Include="Spine\Runtime\BaseSpineObject.cs" />
+    <Compile Include="Spine\Runtime\SpineBone.cs" />
+    <Compile Include="Spine\Runtime\SpineTransform.cs" />
     <Compile Include="Spine\Runtime\Data\Generated\SpineDataTemplate.generader.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
